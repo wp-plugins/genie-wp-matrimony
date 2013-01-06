@@ -7,7 +7,7 @@ Description: Genie WP Matrimony is Wordpress plugin which help in converting you
 Wordpress blog into a complete matrimonial website. This plugin uses the information 
 of the default Wordpress users which makes it very easier and faster integration 
 with existing Wordpress setup. 
-Version: 0.1
+Version: 0.2
 Author: prakashm88
 Author URI: http://www.itechgenie.com
 License: GPLv2
