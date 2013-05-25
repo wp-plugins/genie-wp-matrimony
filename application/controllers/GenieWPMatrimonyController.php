@@ -230,9 +230,9 @@ class GenieWPMatrimonyController {
 	}
 
 	function page_route($content) {
-		global $post;
-		$content = "" ;
+		global $post;		
 		if ($post->ID == $this->_matrimonyPageId) {
+			$content = "" ;
 			ob_start();
 			try {
 				if (current_user_can('level_1')) {
