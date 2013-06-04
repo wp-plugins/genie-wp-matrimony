@@ -85,6 +85,7 @@ require_once (GWPM_APPLICATION_URL . DS . 'vos' . DS . 'GwpmActivityVO.php');
 require_once (GWPM_APPLICATION_URL . DS . 'vos' . DS . 'GwpmGalleryVO.php');
 require_once (GWPM_APPLICATION_URL . DS . 'vos' . DS . 'GwpmSearchVO.php');
 require_once (GWPM_APPLICATION_URL . DS . 'vos' . DS . 'GwpmAdminVO.php');
+require_once (GWPM_APPLICATION_URL . DS . 'vos' . DS . 'GwpmNotificationVO.php');
 
 if (class_exists('GenieWPMatrimonyController') && !$genieWPMatrimonyController) {
 	$genieWPMatrimonyController = new GenieWPMatrimonyController();

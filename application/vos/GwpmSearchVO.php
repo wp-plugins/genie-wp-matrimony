@@ -17,6 +17,8 @@ class GwpmSearchVO extends Command {
 	var $gwpm_zodiac;
 	var $gwpm_starsign;
 	var $gwpm_sevvai_dosham;
+	var $gwpm_caste;
+	var $gwpm_religion;
 	var $gwpm_address;
 	var $gwpm_education;
 	var $gwpm_work;

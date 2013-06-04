@@ -14,16 +14,16 @@ $resultCount = sizeof($resultObj);
 					<tr>
 				        <th valign="top">Sender</th>
 				        <th valign="top">Message</th>
-				        <th valign="top">Time</th>
+				 <!--         <th valign="top">Time</th>  -->
 		      		</tr>
 		      		<?php  
 				foreach ($resultObj as $messageObj) {
 					?>
 					<tr>
-				        <td valign="top"><a href="<?php $this->get_gwpm_formated_url('page=profile&action=view&pid=' . $messageObj->user_id); ?>" 
-				        				target="_blank" ><?php gwpm_echo( GWPM_USER_PREFIX . $messageObj->user_id ); ?></a></td>
+				        <td valign="top" class="gwpm-user-id"><a href="<?php $this->get_gwpm_formated_url('page=profile&action=view&pid=' . $messageObj->user_id); ?>" 
+				        				target="_blank" ><?php gwpm_echo( GWPM_USER_PREFIX . $messageObj->user_id ); ?></a><br />@ <?php gwpm_echo(  $messageObj->created ); ?></td>
 				        <td valign="top"><?php gwpm_echo(  $messageObj->user_message ); ?></td>
-				        <td valign="top" class="gwpm-created-date"><?php gwpm_echo(  $messageObj->created ); ?></td>
+				 <!--   <td valign="top" class="gwpm-created-date"><?php gwpm_echo(  $messageObj->created ); ?></td>  -->
 		      		</tr>
 					<?php
 				$counter++ ;

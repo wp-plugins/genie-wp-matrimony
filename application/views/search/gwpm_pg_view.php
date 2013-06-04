@@ -54,6 +54,14 @@ $modelObj = $this->get('model');
 				</td>
 			</tr>
 			<tr>
+				<td valign="top">Caste:</td>
+				<td valign="top"><input name="gwpm_caste" id="gwpm_caste" /></td>
+			</tr>
+			<tr>
+				<td valign="top">Religion:</td>
+				<td valign="top"><input name="gwpm_religion" id="gwpm_religion" /></td>
+			</tr>
+			<tr>
 				<td valign="top">Education:</td>
 				<td valign="top"><?php $this->getSelectItem(getQualificationOptions(), 'gwpm_education') ; ?></td>
 			</tr>

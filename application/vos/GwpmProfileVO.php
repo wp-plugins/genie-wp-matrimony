@@ -65,6 +65,16 @@ class GwpmProfileVO extends Command {
 	 * @message="Invalid value for Sevvai Dosham" 
 	 */
 	var $gwpm_sevvai_dosham ;
+	/** 
+	 * @mandatory
+	 * @message="Invalid value for Caste" 
+	 */
+	var $gwpm_caste;
+	/** 
+	 * @mandatory
+	 * @message="Invalid value for Religion" 
+	 */
+	var $gwpm_religion;
 	var $gwpm_physical ;
 	var $gwpm_address ;
 	/**

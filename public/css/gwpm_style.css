@@ -44,6 +44,10 @@
 	font-family: Verdana, Helvetica, sans-serif;
 }
 
+.gwpm-conversation-result .gwpm-user-id {
+	min-width: 100px;
+}
+
 .gwpm-conversation-result .gwpm-created-date {
 	min-width: 160px;
 }

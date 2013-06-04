@@ -63,6 +63,16 @@ class GwpmSearchModel {
 				$args[$counter] = $searchObj->gwpm_sevvai_dosham;
 				$counter++;
 			}
+			if (!isNull($searchObj->gwpm_caste)) {
+				$queryString .= $this->appendWhereOr("meta_value = '%s' AND meta_key = 'gwpm_caste' ", $counter);
+				$args[$counter] = $searchObj->gwpm_caste;
+				$counter++;
+			}
+			if (!isNull($searchObj->gwpm_religion)) {
+				$queryString .= $this->appendWhereOr("meta_value = '%s' AND meta_key = 'gwpm_religion' ", $counter);
+				$args[$counter] = $searchObj->gwpm_religion;
+				$counter++;
+			}
 			if (!isNull($searchObj->gwpm_has_photo)) {
 				$queryString .= $this->appendWhereOr("(meta_key = 'gwpm_profile_photo' OR meta_key = 'gwpm_gallery_img' ) " .
 						" AND (meta_value IS NOT NULL and meta_value != 'a:0:{}' )", $counter);

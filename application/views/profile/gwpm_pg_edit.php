@@ -126,6 +126,20 @@ $modelObj = $this->get('model');
 							<span class="gwpm-mandatory">*</span>
 						</td>
 					</tr>
+					<tr>
+				        	<td valign="top">Caste:</td>
+				       		<td valign="top">
+				       			<input name="gwpm_caste" id="gwpm_caste"
+								value="<?php gwpm_echo ( $modelObj->gwpm_caste ) ; ?>" /><span class="gwpm-mandatory">*</span> 
+						</td>
+			      		</tr>
+			      		<tr>
+				        	<td valign="top">Religion:</td>
+				       		<td valign="top">
+				       			<input name="gwpm_religion" id="gwpm_religion"
+								value="<?php gwpm_echo ( $modelObj->gwpm_religion ) ; ?>" /><span class="gwpm-mandatory">*</span> 
+						</td>
+			      		</tr>
 				</tbody>
 			</table>
 		</div>

@@ -7,5 +7,8 @@
  */
 class GwpmIndexController extends Controller {
 
+	function view() {
+		$this->set('model', $this->_model->getAllNotifications());
+	}
 
 }

@@ -123,6 +123,18 @@ $modelObj = $this->get('model');
 				</td>
       		</tr>
       		<tr>
+	        	<td valign="top">Caste:</td>
+	       		<td valign="top">
+	       			<?php gwpm_echo ( $modelObj->gwpm_caste ); 	?> 
+				</td>
+      		</tr>
+      		<tr>
+	        	<td valign="top">Religion:</td>
+	       		<td valign="top">
+	       			<?php gwpm_echo ( $modelObj->gwpm_religion ); 	?> 
+				</td>
+      		</tr>
+      		<tr>
 				<td colspan="2">  
 					<h3> Education & Work Information </h3>
 				</td>
