@@ -5,7 +5,7 @@ Donate link: http://www.itechgenie.com/
 Tags: matrimony, India matrimony, marriage, brides, grooms, matrimonial, dating
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 0.3.1
+Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,11 @@ Yes, The plugin is not theme dependable so you can use any theme.
 2. Unwanted files removed from the repository
 
 == Changelog ==
+
+= 0.4 =
+1. New fields - Religion and Caste added to profile page, search page
+2. Index page updated with the Notifications 
+3. Notification page UI updated
 
 = 0.2 =
 1. First release of the plugin
