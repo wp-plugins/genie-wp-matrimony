@@ -17,6 +17,15 @@ $modelObj = $this->get('model');
 				<td valign="top"><input name="username" id="username" value="" /></td>
 			</tr>
 			<tr>
+	        	<td valign="top">Age Range:<br /><span style="color: #f6931f; font-weight: bold;" >(18 to 60 Yrs)</span></td>
+	       		<td valign="top">
+  					<input id="gwpm_age" style="color: #f6931f; font-weight: bold;" disabled="disabled" />
+  					<input id="gwpm_age_from" name="gwpm_age_from" class="gwpm_hidden_fields" />
+  					<input id="gwpm_age_to" name="gwpm_age_to" class="gwpm_hidden_fields" />
+  					<div id="slider-range" style="width: 13em; margin-top: 15px;"></div>
+	       		</td>
+      		</tr>
+			<tr>
 	        	<td valign="top">Born Before:</td>
 	       		<td valign="top"><input name="gwpm_dob" id="gwpm_dob"
 						class="gwpm-datepicker" /></td>
@@ -94,6 +103,20 @@ jQuery(document).ready(function() {
 		var year = today.getFullYear() - 18 ;
 		var month = today.getMonth() ;
 		jQuery("#gwpm_dob").datetimepicker({ ampm: true, maxDate: new Date(year, month, 1) });
+		jQuery( "#slider-range" ).slider({
+	      range: true,
+	      min: 18,
+	      max: 60,
+	      values: [ 18, 60 ],
+	      slide: function( event, ui ) {
+	        jQuery( "#gwpm_age" ).val( ui.values[ 0 ] + " to " + ui.values[ 1 ] + " Yrs");
+	        jQuery( "#gwpm_age_from" ).val(ui.values[ 0 ]) ;
+	        jQuery( "#gwpm_age_to" ).val(ui.values[ 1 ]) ;
+	      }
+	    });
+//	    jQuery( "#gwpm_age" ).val( "18 to 60 Yrs" );
+//	    jQuery( "#gwpm_age_from" ).val("18") ;
+//	    jQuery( "#gwpm_age_to" ).val("60") ;
 });
 
 </script>

@@ -4,8 +4,8 @@ Contributors: prakashm88
 Donate link: http://www.itechgenie.com/
 Tags: matrimony, India matrimony, marriage, brides, grooms, matrimonial, dating
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 0.4
+Tested up to: 3.5.2
+Stable tag: 0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,13 +60,22 @@ Yes, The plugin is not theme dependable so you can use any theme.
 
 == Changelog ==
 
+= 0.5 =
+Caste and religion options added to control panel profile edit page
+Age range added to profile search page
+Born before search option bug fixed
+Profile Image type support for image/x-png added
+
 = 0.4 =
-1. New fields - Religion and Caste added to profile page, search page
-2. Index page updated with the Notifications 
-3. Notification page UI updated
+New fields - Religion and Caste added to profile page, search page
+Index page updated with the Notifications 
+Notifications UI updated
+
+= 0.3 =
+Minor bugs fixed
 
 = 0.2 =
-1. First release of the plugin
+First release of the plugin
 
 = 0.1 =
-1. Beta - First beta release of the plugin
+Beta release of the plugin

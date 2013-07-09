@@ -73,6 +73,23 @@ class GwpmSearchModel {
 				$args[$counter] = $searchObj->gwpm_religion;
 				$counter++;
 			}
+			if (!isNull($searchObj->gwpm_age_from) && !isNull($searchObj->gwpm_age_to)) {
+				$queryString .= $this->appendWhereOr("meta_key = 'gwpm_dob' AND STR_TO_DATE(meta_value, '%s') BETWEEN CURDATE() - INTERVAL %d YEAR AND CURDATE() - INTERVAL %d YEAR ", $counter);
+				$args[$counter] = "%m/%d/%Y %l:%i %p"; 
+				$counter++;
+				$args[$counter] = $searchObj->gwpm_age_to;
+				$counter++;
+				$args[$counter] = $searchObj->gwpm_age_from;
+				$counter++;
+			}
+			if (!isNull($searchObj->gwpm_dob)) {
+				$queryString .= $this->appendWhereOr("meta_key = 'gwpm_dob' AND STR_TO_DATE(meta_value, '%s') < '%s' ", $counter);
+				$args[$counter] = "%m/%d/%Y %l:%i %p"; 
+				$counter++;
+				$dt = new DateTime($searchObj->gwpm_dob);   				
+				$args[$counter] = $dt->format('Y-m-d H:i:s'); 
+				$counter++;
+			}
 			if (!isNull($searchObj->gwpm_has_photo)) {
 				$queryString .= $this->appendWhereOr("(meta_key = 'gwpm_profile_photo' OR meta_key = 'gwpm_gallery_img' ) " .
 						" AND (meta_value IS NOT NULL and meta_value != 'a:0:{}' )", $counter);

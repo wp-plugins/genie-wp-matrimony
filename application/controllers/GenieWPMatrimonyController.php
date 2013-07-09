@@ -297,7 +297,8 @@ class GenieWPMatrimonyController {
 					include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_login.php');
 				}
 			} catch (Exception $e) {
-				echo $e->getMessage() . "\n" ;
+				$backUrl = '<a href="javascript:window.history.back();" rel="prev">Go Back</a>';
+				echo $e->getMessage() . " - " . $backUrl . "\n" ;
 				if(DEVELOPMENT_ENVIRONMENT) {
 					throw $e;
 				}

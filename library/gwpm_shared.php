@@ -88,6 +88,10 @@ function savePhotoToUploadFolder($photo, $userId, $photoId=null) {
 		$photoEXT = ".png";
 		$pType = 2;
 	}
+	elseif ($photo["type"] == "image/x-png") {
+		$photoEXT = ".png";
+		$pType = 2;
+	}
 	
 	if (isset ($pType) && ($photo["size"] < (GWPM_IMAGE_MAX_SIZE * 1024))) {
 		if ($photo["error"] > 0) {
@@ -147,7 +151,7 @@ function savePhotoToUploadFolder($photo, $userId, $photoId=null) {
 			unset ($photo["tmp_name"]);
 		}
 	} else {
-		throw new GwpmCommonException("Upload of profile photo failed. Invalid photo type (" . $pType . ") or Size greater than " . GWPM_IMAGE_MAX_SIZE . " kb");
+		throw new GwpmCommonException("Upload of profile photo failed. Invalid photo type (" . $pType . " - " . $photo["type"] . ") or Size greater than " . GWPM_IMAGE_MAX_SIZE . " kb");
 	}
 	return $photo;
 }
