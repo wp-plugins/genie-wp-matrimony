@@ -91,7 +91,7 @@ $modelObj = $this->get('model');
       		</tr>
       		<tr>
 				<td colspan="2">  
-					<h3> Astrology Information </h3>
+					<h3> Horoscope Information </h3>
 				</td>
 			</tr>
 			<tr>
@@ -156,7 +156,7 @@ $modelObj = $this->get('model');
 			</tr>
 			<tr>
 				<td valign="top">Employement Status:</td>
-				<td valign="top"> <?php gwpm_echo ( getEmployementStatusOptions( $modelObj->gwpm_education['status']) ) ; ?> </td>
+				<td valign="top"> <?php gwpm_echo ( getEmploymentStatusOptions( $modelObj->gwpm_education['status']) ) ; ?> </td>
 			</tr>
 			<tr>
 				<td valign="top">Work Place Information:</td>
@@ -169,7 +169,7 @@ $modelObj = $this->get('model');
 			<tr>
 				<td valign="top">Annual Income (INR):</td>
 				<td valign="top"> <?php gwpm_echo ( $modelObj->gwpm_work['income'] ); ?> </td>
-			</tr>      		
+			</tr>
       		<tr>
 				<td colspan="2">  
 					<h3> Physical Apprearance </h3>
@@ -193,5 +193,41 @@ $modelObj = $this->get('model');
 					<?php gwpm_echo( getPhysicalType($modelObj->gwpm_physical ['body_type'] )) ?>
 				</td>
 			</tr>
+			<?php 
+			
+			$dynaData = getDynamicFieldData() ;
+			$totalDynamicFields = $dynaData['gwpm_dynamic_field_count'] ;
+			$dyna_field_item = $dynaData['dyna_field_item'] ;
+			
+			if(sizeof($dyna_field_item) > 0) {
+				?>
+				<tr>
+					<td colspan="2">  
+						<h3> Other Informations </h3>
+					</td>
+				</tr>
+				<?php   
+				$keys = array_keys($dyna_field_item)  ;
+				foreach ($keys as $vkey) {
+					?>
+						<tr>
+							<td valign="top"><?php echo $dyna_field_item[$vkey]['label']  ?>:</td>
+							<td valign="top">
+								<?php
+									$_type = $dyna_field_item[$vkey]['type'] ;
+									 if($_type == 'text') {
+										gwpm_echo( $modelObj-> $vkey ) ;
+									 } else if($_type == 'yes_no' ) {
+									 	gwpm_echo (getYesNoOptions($modelObj->$vkey)) ;
+									 } else if ($_type == 'select'){
+									 	gwpm_echo( $dyna_field_item[$vkey]['value'][$modelObj-> $vkey] ) ;
+									 }
+								?>
+							</td>
+						</tr>
+					<?php
+				}
+			}
+			?>
       	</tbody>
 </table>

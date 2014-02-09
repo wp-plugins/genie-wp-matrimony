@@ -12,6 +12,9 @@ class GwpmAjaxController {
 			case "gallery_delete":
 				$this->delete_gallery_photo($controlObj);
 				break;
+			case "dynafield_delete":
+				$this->dynafield_delete($controlObj) ;
+				break;
 			default:
 				echo "Invalid Ajax request." ;
 		}
@@ -20,5 +23,10 @@ class GwpmAjaxController {
 	function delete_gallery_photo($controlObj) {
 		$galleryModel = new GwpmGalleryModel();
 		$galleryModel->delete($controlObj["userId"], $controlObj["val"]) ;
+	}
+	
+	function dynafield_delete($controlObj) {
+		$adminModel = new GwpmAdminModel() ;
+		$adminModel-> deleteDynamicField($controlObj["val"]) ;
 	}
 }

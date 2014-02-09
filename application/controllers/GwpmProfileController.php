@@ -1,5 +1,5 @@
 <?php
-class GwpmProfileController extends Controller {
+class GwpmProfileController extends GwpmMainController {
 
 	function view() {
 		if(isset($_GET['pid'])) $pid = $_GET['pid'] ;
@@ -12,7 +12,9 @@ class GwpmProfileController extends Controller {
 	}
 
 	function update() {
-		$profileObj = new GwpmProfileVO($_POST);
+		
+		$_keys = getDynamicFieldKeys() ;
+		$profileObj = new GwpmProfileVO($_POST, $_keys);
 		$profileObj->gwpm_profile_photo = $_FILES["gwpm_profile_photo"] ;
 		$validateObj = $profileObj->validate();
 		if (sizeof($validateObj) == 0) {

@@ -1,5 +1,5 @@
 <?php
-class Template {
+class GwpmTemplate {
 
 	protected $variables;
 	protected $_controller;
@@ -118,7 +118,7 @@ class Template {
 			elseif($gender == "Female")
 				return GWPM_PUBLIC_IMG_URL . URL_S . 'female.jpg' ;
 			else 
-				return GWPM_PUBLIC_IMG_URL . URL_S . 'user.jpg' ;
+				return GWPM_PUBLIC_IMG_URL . URL_S . 'gwpm_icon.png' ;
 		} else {
 			// added time to the image url to get image from url without using the cache - helpful while updating the image
 			return GWPM_GALLERY_URL . URL_S . $userId . URL_S . $imageName . '?' . gettimeofday(true);

@@ -3,7 +3,7 @@
  * Created on May 27, 2012
 *
 */
-class GwpmGalleryVO extends Command {
+class GwpmGalleryVO extends GwpmCommand {
 
 	/**
 	 * @mandatory

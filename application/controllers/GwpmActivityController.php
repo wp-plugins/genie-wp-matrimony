@@ -1,5 +1,5 @@
 <?php
-class GwpmActivityController extends Controller {
+class GwpmActivityController extends GwpmMainController {
 
 	function addActivityLog() {
 		$this->_model->addActivityLog("login", "sample");

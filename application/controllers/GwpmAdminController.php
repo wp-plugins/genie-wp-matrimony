@@ -1,5 +1,5 @@
 <?php
-class GwpmAdminController extends Controller {
+class GwpmAdminController extends GwpmMainController {
 
 	function view() {
 		$model = new GwpmAdminVO();

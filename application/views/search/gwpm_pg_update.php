@@ -13,15 +13,21 @@ $resultCount = sizeof($resultObj);
 					?> 
 					<tr>
 						<th valign="top">S.No. </th>
+						<th valign="top">Image</th>
 				        <th valign="top">User Id</th>
 				        <th valign="top">Name</th>
 				        <th valign="top">Email Id</th>
 		      		</tr>
 		      		<?php  
 				foreach ($resultObj as $userObj) {
+						
+					$gravatarDetail = get_avatar( $userObj->ID , 48 ) ;
+					$gravatarDetail = $gravatarDetail ? $gravatarDetail : getGravatarImageForUser($userObj->ID, true );
+					
 					?>
 					<tr>
 						<td valign="top"><?php gwpm_echo(  $counter ); ?></td>
+						<td valign="top"><?php echo ($gravatarDetail ); ?></td>
 				        <td valign="top">
 				        	<a href="<?php $this->get_gwpm_formated_url('page=profile&action=view&pid=' . $userObj->ID) ?>"
 				        	 target="_blank" ><?php gwpm_echo( GWPM_USER_PREFIX . $userObj->ID ); ?></a></td>

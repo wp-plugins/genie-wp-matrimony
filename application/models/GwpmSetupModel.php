@@ -80,6 +80,12 @@ class GwpmSetupModel {
 		}
 	}
 	
+	private function removeDynamicFields() {
+		global $wpdb ;
+		$deletedRows = $wpdb->query( $wpdb->prepare( "DELETE  FROM $wpdb->options WHERE OPTION_NAME LIKE %s", "gwpm_dyna_field_%"));
+		echo 'Deleted rows: ' . $deletedRows ;
+	}
+	
 	private function updateMatrimonyPageMeta($postId) {
 		return add_post_meta($postId, GWPM_META_KEY, GWPM_META_VALUE, true);
 	}
@@ -106,6 +112,7 @@ class GwpmSetupModel {
 		$postId = $genieWPMatrimonyController->getGWPMPageId();
 		$this->removeMatrimonyUserRole();
 		$this->removeMenuItems($postId);
+		$this->removeDynamicFields($postId);
 		$this->removeMatrimonyPage($postId);
 		if(isset($current_blog) && isset($current_blog->blog_id)) {
 			delete_option("gwpm_" . $current_blog->blog_id . "_". GWPM_META_KEY);

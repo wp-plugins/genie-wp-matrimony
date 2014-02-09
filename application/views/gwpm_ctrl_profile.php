@@ -6,28 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 ?>
-<style type="text/css" >
-.gwpm-table td {
-	min-width: 20em;
-}
-.gwpm-table input, select {
-	width: 16em;
-}
-.gwpm-mandatory {
-	font-size: 18px;
-	font-weight: bold;
-	color: red;
-}
-.gwpm_hidden_fields {
-	display: none;
-	visibility: hidden;
-}
-.gwpm-error-msg {
-	font-size: 14px;
-	font-weight: bold;
-	color: red;
-}
-</style>
+
 <div class="wrap">
 <?php
 
@@ -37,10 +16,11 @@ try {
 	$profileModel = new GwpmProfileModel() ;
 	$userObj = wp_get_current_user();
 	$modelObj = $profileModel->getUserObj($userObj->ID);
-	$templateObj = new Template(null, null, null);
+	$templateObj = new GwpmTemplate(null, null, null);
 
 	if(isset($_POST['update-button']) && $_POST['update-button'] == 'Update') {
-		$profileObj = new GwpmProfileVO($_POST);
+		$_keys = getDynamicFieldKeys() ;
+		$profileObj = new GwpmProfileVO($_POST, $_keys);
 		$profileObj->gwpm_profile_photo = $_FILES["gwpm_profile_photo"] ;
 		$validateObj = $profileObj->validate();
 		if (sizeof($validateObj) == 0) {
@@ -154,7 +134,7 @@ try {
 			</table>
 		</div>
 		<h3>
-			<a href="#">Astrology Information</a>
+			<a href="#">Horoscope Information</a>
 		</h3>
 		<div>
 			<table class='gwpm-table'>
@@ -239,7 +219,7 @@ try {
 					<tr>
 						<td valign="top">Employement Status:</td>
 						<td valign="top">
-							<?php $templateObj->getSelectItem(getEmployementStatusOptions(), 'gwpm_education[status]', ($modelObj->gwpm_education['status'])) ; 	?>
+							<?php $templateObj->getSelectItem(getEmploymentStatusOptions(), 'gwpm_education[status]', ($modelObj->gwpm_education['status'])) ; 	?>
 							<span class="gwpm-mandatory">*</span>
 						</td>
 					</tr>
@@ -291,6 +271,48 @@ try {
 				</tbody>
 			</table>
 		</div>
+		<?php 
+			$dynaData = getDynamicFieldData() ;
+			$totalDynamicFields = $dynaData['gwpm_dynamic_field_count'] ;
+			$dyna_field_item = $dynaData['dyna_field_item'] ;
+			
+			if(sizeof($dyna_field_item) > 0) {
+				?>
+				<h3>
+					<a href="#">Other Information</a>
+				</h3>
+				<div>
+					<table class='gwpm-table'>
+						<tbody>
+							<?php   
+							$keys = array_keys($dyna_field_item)  ;
+							foreach ($keys as $vkey) {
+								?>
+									<tr>
+										<td valign="top"><?php echo $dyna_field_item[$vkey]['label']  ?>:</td>
+										<td valign="top">
+											<?php
+												 if($dyna_field_item[$vkey]['type'] == 'text') {
+													gwpm_echo ('<input name="' . $vkey . '" id="' . $vkey . '" value="' . 
+																$modelObj-> $vkey . '" />' );
+												 } else if($dyna_field_item[$vkey]['type'] == 'select') {
+												 	$templateObj->getSelectItem(getDynamicFieldOptions($dyna_field_item[$vkey]['value']), $vkey, $modelObj-> $vkey) ;
+												 } else if($dyna_field_item[$vkey]['type'] == 'yes_no') {
+												 	$templateObj->getSelectItem(getYesNoOptions(), $vkey, $modelObj-> $vkey) ;
+												 }
+											?>
+										<span class="gwpm-mandatory">*</span></td>
+									</tr>
+								<?php
+							}
+							?>
+						</tbody>
+					</table>
+				</div>
+				<?php
+			}
+			
+		?>
 		<h3>
 			<a href="#">Profile Photo</a>
 		</h3>

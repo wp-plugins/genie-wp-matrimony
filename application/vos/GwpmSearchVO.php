@@ -7,7 +7,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-class GwpmSearchVO extends Command {
+class GwpmSearchVO extends GwpmCommand {
 
 	var $userId;
 	var $username;
@@ -23,7 +23,6 @@ class GwpmSearchVO extends Command {
 	var $gwpm_religion;
 	var $gwpm_address;
 	var $gwpm_education;
-	var $gwpm_work;
 	var $gwpm_has_photo;
 
 }

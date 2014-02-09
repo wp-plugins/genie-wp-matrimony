@@ -5,7 +5,7 @@ Donate link: http://www.itechgenie.com/
 Tags: matrimony, India matrimony, marriage, brides, grooms, matrimonial, dating
 Requires at least: 3.0
 Tested up to: 3.5.2
-Stable tag: 0.5
+Stable tag: 0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,15 +50,32 @@ Yes, The plugin is not theme dependable so you can use any theme.
 3. Profile Edit page
 4. Gallery Edit page
 5. Profile Search page
-6. Search Results
+6. Search Results page with profile pictures
 7. Activity list of users
+8. Avatar option for GWPM Users
+9. Dynamic fields add screen
+10. Dynamic fields view screen
+11. Dynamic fields in User profile edit page
+
 
 == Upgrade Notice ==
 
-1. POT files updated for I18n
-2. Unwanted files removed from the repository
+1. Gravatar with profile picture support for GWPM Matrimony users
+2. Controllers, Templates renamed to avoid potential conflicts with other plugins
+3. Dynamic Field support added - customized fields in profile, search pages
+4. Logger implementation done for development purposes
+5. Dashboard admin page updated with Tabs for Dynamic field support
+6. Separate CSS for admin pages, typo fixed
 
 == Changelog ==
+
+= 0.6 =
+Gravatar with profile picture support for GWPM Matrimony users
+Controllers, Templates renamed to avoid potential conflicts with other plugins
+Dynamic Field support added - customized fields in profile, search pages
+Logger implementation done for development purposes
+Dashboard admin page updated with Tabs for Dynamic field support
+Separate CSS for Admin pages, typo fixed
 
 = 0.5 =
 Caste and religion options added to control panel profile edit page

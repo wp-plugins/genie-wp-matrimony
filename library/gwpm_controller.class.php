@@ -1,5 +1,5 @@
 <?php
-class Controller {
+class GwpmMainController {
 
 	protected $_model;
 	protected $_controller;
@@ -12,7 +12,7 @@ class Controller {
 		$this->_action = $action;
 		$this->_model = new $model;
 
-		$this->_template = new Template($controller, $action, $variables);
+		$this->_template = new GwpmTemplate($controller, $action, $variables);
 
 	}
 

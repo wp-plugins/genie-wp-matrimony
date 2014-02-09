@@ -86,7 +86,7 @@ $modelObj = $this->get('model');
 			</table>
 		</div>
 		<h3>
-			<a href="#">Astrology Information</a>
+			<a href="#">Horoscope Information</a>
 		</h3>
 		<div>
 			<table class='gwpm-table'>
@@ -171,7 +171,7 @@ $modelObj = $this->get('model');
 					<tr>
 						<td valign="top">Employement Status:</td>
 						<td valign="top">
-							<?php $this->getSelectItem(getEmployementStatusOptions(), 'gwpm_education[status]', ($modelObj->gwpm_education['status'])) ; 	?>
+							<?php $this->getSelectItem(getEmploymentStatusOptions(), 'gwpm_education[status]', ($modelObj->gwpm_education['status'])) ; 	?>
 							<span class="gwpm-mandatory">*</span>
 						</td>
 					</tr>
@@ -223,6 +223,49 @@ $modelObj = $this->get('model');
 				</tbody>
 			</table>
 		</div>
+		
+		<?php 
+			$dynaData = getDynamicFieldData() ;
+			$totalDynamicFields = $dynaData['gwpm_dynamic_field_count'] ;
+			$dyna_field_item = $dynaData['dyna_field_item'] ;
+			
+			if(sizeof($dyna_field_item) > 0) {
+				?>
+				<h3>
+					<a href="#">Other Information</a>
+				</h3>
+				<div>
+					<table class='gwpm-table'>
+						<tbody>
+							<?php   
+							$keys = array_keys($dyna_field_item)  ;
+							foreach ($keys as $vkey) {
+								?>
+									<tr>
+										<td valign="top"><?php echo $dyna_field_item[$vkey]['label']  ?>:</td>
+										<td valign="top">
+											<?php
+												 if($dyna_field_item[$vkey]['type'] == 'text') {
+													gwpm_echo ('<input name="' . $vkey . '" id="' . $vkey . '" value="' . 
+																$modelObj-> $vkey . '" />' );
+												 } else if($dyna_field_item[$vkey]['type'] == 'select') {
+												 	$this->getSelectItem(getDynamicFieldOptions($dyna_field_item[$vkey]['value']), $vkey, $modelObj-> $vkey) ;
+												 } else if($dyna_field_item[$vkey]['type'] == 'yes_no') {
+												 	$this->getSelectItem(getYesNoOptions(), $vkey, $modelObj-> $vkey) ;
+												 }
+											?>
+										<span class="gwpm-mandatory">*</span></td>
+									</tr>
+								<?php
+							}
+							?>
+						</tbody>
+					</table>
+				</div>
+				<?php
+			}
+			
+		?>
 		<h3>
 			<a href="#">Profile Photo</a>
 		</h3>

@@ -13,11 +13,23 @@ class GenieWPMatrimonyController {
 			& $this, 
 			'gwpm_warning' 
 		));
+		add_action( 'admin_head', array(
+			& $this, 
+			'gwpm_admin_header' 
+		));
 		add_action('admin_menu', array (
 			& $this,
 			'gwpm_admin_action'
 		));
-		add_filter( 'wp_list_pages', array( 
+		add_action('avatar_defaults', array (
+			& $this,
+			'gwpm_avatar_defaults'
+		));
+		add_action('get_avatar', array (
+			& $this,
+			'gwpm_get_avatar'
+		), 10, 4);
+		add_filter( 'wp_list_pages', array(
 			& $this, 
 			'gwpm_wp_list_pages'
 		));
@@ -63,6 +75,12 @@ class GenieWPMatrimonyController {
 		global $wpdb;
 		$this->_matrimonyPageId = $wpdb->get_var($wpdb->prepare("select post_id from $wpdb->postmeta where meta_key = '%s'", GWPM_META_KEY));
 	}
+	
+	function gwpm_admin_header() {
+		$siteurl = get_option('siteurl');
+   		$url =  GWPM_PUBLIC_CSS_URL . URL_S . 'gwpm_admin_style.css';
+    		echo "<link rel='stylesheet' type='text/css' href='$url' />\n";
+	}
 
 	function gwpm_admin_action() {
 		if (current_user_can('edit_users')) {
@@ -75,6 +93,63 @@ class GenieWPMatrimonyController {
 			& $this,
 			'gwpm_admin_page_profiles'
 		));
+	}
+	
+	function gwpm_avatar_defaults($avatar_defaults) {
+		$new_avatar_url = GWPM_PUBLIC_IMG_URL . URL_S . 'gwpm_avatar.png'  ;
+		$avatar_defaults[$new_avatar_url] = __('Genie WP Matrimony Avatar');
+		appendLog(print_r($avatar_defaults, true)) ;
+		return $avatar_defaults;
+	}
+	
+	function gwpm_get_avatar($avatar, $id_or_email, $size, $default) {
+		global $wpdb ;
+		
+		appendLog("avatar: " . $avatar) ;
+		appendLog("default: " . $default) ;
+		appendLog( $id_or_email );
+		
+		if( strpos($default, GWPM_AVATAR) !== false ) {
+			$imageURL = GWPM_PUBLIC_IMG_URL . URL_S . 'gwpm_icon.png' ;
+			appendLog("isAdmin: " . is_admin()) ;
+			if(!is_admin()) {
+				appendLog("Not Admin page") ;
+				if(is_object($id_or_email)){
+					if($id_or_email->ID)
+						$id_or_email = $id_or_email->ID;
+					else if($id_or_email->user_id)
+						$id_or_email = $id_or_email->user_id;
+					else if($id_or_email->comment_author_email)
+						$id_or_email = $id_or_email->comment_author_email;
+				}
+		
+				if(is_numeric($id_or_email))
+					$userid = (int)$id_or_email;
+				else if(is_string($id_or_email))
+					$userid = (int)$wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_email = '" . mysql_escape_string($id_or_email) . "'");
+				
+				$imageURL = getGravatarImageForUser($userid) ;
+				
+			}
+			
+			appendLog("imageURL: " . $imageURL) ;
+			
+			$doc = new DOMDocument();
+			$doc->loadHTML($avatar);
+			$imageTags = $doc->getElementsByTagName('img');	
+			
+			foreach($imageTags as $tag) {
+		        appendLog ( $tag->getAttribute('src') );
+		        $imgSrc = $tag->getAttribute('src') ;
+		        $tag->setAttribute( "src", $imageURL );
+		        $avatar = $tag->ownerDocument->saveXML( $tag ) ;
+		        appendLog("altered avatar: ") ;
+		    }
+			
+		}
+	    
+	    appendLog ("printxml: " .  $avatar   ) ; 
+		return $avatar;
 	}
 	
 	/**
@@ -298,8 +373,8 @@ class GenieWPMatrimonyController {
 				}
 			} catch (Exception $e) {
 				$backUrl = '<a href="javascript:window.history.back();" rel="prev">Go Back</a>';
-				echo $e->getMessage() . " - " . $backUrl . "\n" ;
-				if(DEVELOPMENT_ENVIRONMENT) {
+				echo "\r\n" . $e->getMessage() . " \r\n\r\n " . $backUrl . "\n" ;
+				if(DEVELOPMENT_ENVIRONMENT == true) {
 					throw $e;
 				}
 			}

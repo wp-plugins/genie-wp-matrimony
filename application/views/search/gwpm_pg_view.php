@@ -72,12 +72,36 @@ $modelObj = $this->get('model');
 			</tr>
 			<tr>
 				<td valign="top">Education:</td>
-				<td valign="top"><?php $this->getSelectItem(getQualificationOptions(), 'gwpm_education') ; ?></td>
+				<td valign="top"><?php $this->getSelectItem(getQualificationOptions(), 'gwpm_education[qualification]') ; ?></td>
 			</tr>
 			<tr>
-				<td valign="top">Employement:</td>
-				<td valign="top"><?php $this->getSelectItem(getEmployementStatusOptions(), 'gwpm_work') ; 	?></td>
+				<td valign="top">Employment:</td>
+				<td valign="top"><?php $this->getSelectItem(getEmploymentStatusOptions(), 'gwpm_education[status]') ; 	?></td>
 			</tr>
+			<?php
+				$totalDynamicFields = $modelObj['gwpm_dynamic_field_count'] ;
+				$dyna_field_item = $modelObj['dyna_field_item'] ;
+				$keys = array_keys($dyna_field_item)  ;
+				
+				foreach ($keys as $vkey) {
+					?>
+						<tr>
+							<td valign="top"><?php echo $dyna_field_item[$vkey]['label']  ?>:</td>
+							<td valign="top">
+								<?php
+									 if($dyna_field_item[$vkey]['type'] == 'text') {
+										gwpm_echo ('<input name="' . $vkey . '" id="' . $vkey . '" />' );
+									 } else if($dyna_field_item[$vkey]['type'] == 'select') {
+									 	$this->getSelectItem(getDynamicFieldOptions($dyna_field_item[$vkey]['value']), $vkey) ;
+									 } else if($dyna_field_item[$vkey]['type'] == 'yes_no') {
+									 	$this->getSelectItem(getYesNoOptions(), $vkey) ;
+									 }
+								?>
+							</td>
+						</tr>
+					<?php
+				}
+			?>
 			<tr>
 				<td valign="top">With Profile Photo:</td>
 				<td valign="top"><input type="checkbox" name="gwpm_has_photo" value="1"/></td>

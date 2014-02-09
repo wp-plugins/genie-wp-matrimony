@@ -30,7 +30,9 @@ class GwpmProfileModel {
 		print_r($op) ;
 		**/
 
-		$userObj = new GwpmProfileVO($userMeta);
+		$_keys = getDynamicFieldKeys() ;
+
+		$userObj = new GwpmProfileVO($userMeta, $_keys);
 		$userObj->userId = $user->ID;
 		$userObj->user_email = $user->user_email;
 		$userObj->gender = 'Male';
@@ -40,43 +42,64 @@ class GwpmProfileModel {
 		$userObj->gwpm_work = unserialize($userObj->gwpm_work[0]);
 		$userObj->gwpm_tmasvs = unserialize($userObj->gwpm_tmasvs[0]);
 		$userObj->gwpm_profile_photo = unserialize($userObj->gwpm_profile_photo[0]);
+		
+		foreach($_keys as $key) {
+			$tempValObj = $userObj->$key ;
+			$tempVal = $tempValObj[0] ;
+			$userObj->$key = $tempVal;
+		}
+		
 		/*foreach (array_keys(get_class_vars(get_class($userObj))) as $key) {
 			$value = $userObj-> $key;
 			echo $key . ' - ' ;
 			print_r($value) ;
 			echo '</br>' ;
 		}*/
+		$totalCount = get_option(GWPM_DYNA_FIELD_COUNT);
+		if (!isset ($totalCount) || $totalCount == null) {
+			$totalCount = 0;
+		}
+		$userObj->gwpm_dynamic_field_count = $totalCount;
 		$inval = $userObj->validate();
 		//print_r($inval) ;
 		return $userObj;
 	}
 
 	function updateUser($userObj) {
-		global $gwpm_activity_model ;
+		global $gwpm_activity_model;
 		$isGwpmUser = get_user_meta($userObj->userId, 'gwpm_user');
 		if (isset ($isGwpmUser) && sizeof($isGwpmUser) > 0) {
+			
 		} else {
-			echo (add_user_meta($userObj->userId, 'gwpm_user', true, true));
+			appendLog (add_user_meta($userObj->userId, 'gwpm_user', true, true));
+		}
+		
+		$processKeys = array_keys(get_class_vars(get_class($userObj))) ;
+		$dynaKeys = getDynamicFieldKeys() ;
+		foreach($dynaKeys as $__keys) {
+			array_push($processKeys, $__keys) ;
 		}
 
-		foreach (array_keys(get_class_vars(get_class($userObj))) as $key) {
+		foreach ($processKeys as $key) {
+			appendLog( $key ) ;
 			if ($key == "gwpm_profile_photo") {
-				$photoObj = $userObj-> $key ;
-				if( $photoObj["size"] != 0 ) {
+				$photoObj = $userObj-> $key;
+				if ($photoObj["size"] != 0) {
 					$value = savePhotoToUploadFolder($userObj-> $key, $userObj->userId);
-					$gwpm_activity_model->addActivityLog("profile", "Updated Profile Image", $userObj->userId) ;
-				} else continue ;
+					$gwpm_activity_model->addActivityLog("profile", "Updated Profile Image", $userObj->userId);
+				} else
+					continue;
 			}
 			elseif (!is_array($userObj-> $key)) $value = trim($userObj-> $key);
 			else
 				$value = $userObj-> $key;
-			if ($key != 'userId') {
+			if ($key != 'userId' && $key != 'dynamicFields' && $key != 'dynamicFieldsValidation') {
 				update_user_meta($userObj->userId, $key, $value);
 			}
 		}
-		$gwpm_activity_model->addActivityLog("profile", "Updated Profile", $userObj->userId) ;
+		$gwpm_activity_model->addActivityLog("profile", "Updated Profile", $userObj->userId);
 	}
-
+	
 	/*
 	 * 
 	function saveProfilePhoto($photo, $userId) {

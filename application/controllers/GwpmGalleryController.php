@@ -1,5 +1,5 @@
 <?php
-class GwpmGalleryController extends Controller {
+class GwpmGalleryController extends GwpmMainController {
 
 	function view() {
 		if(isset($_GET['pid'])) $pid = $_GET['pid'] ;

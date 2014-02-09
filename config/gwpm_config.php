@@ -3,9 +3,11 @@
 /** Configuration Variables **/
 
 define('DEVELOPMENT_ENVIRONMENT', false);
+define('GWPM_ENABLE_DEBUGGING', false);
 
 define('GWPM_APPLICATION_URL', GWPM_ROOT . DS . 'application');
 define('GWPM_LIBRARY_URL', GWPM_ROOT . DS . 'library');
+define('GWPM_LOG_URL', GWPM_ROOT . DS . 'logs');
 define('GWPM_PUBLIC_URL', GWPM_CONTENT_URL . URL_S . 'public');
 define('GWPM_PUBLIC_CSS_URL', GWPM_PUBLIC_URL . URL_S . 'css');
 define('GWPM_PUBLIC_JS_URL', GWPM_PUBLIC_URL . URL_S . 'js');
@@ -21,6 +23,9 @@ define("GWPM_IMAGE_MAX_SIZE", "500");
 define("GWPM_GALLERY_MAX_IMAGES", "12");
 define("GWPM_CONVERSE_MAX_NOS", "10");
 define("GWPM_ACTIVITY_MAX_NOS", "10");
+define("GWPM_DYNA_KEY_PREFIX", "gwpm_dyna_field_");
+define("GWPM_DYNA_FIELD_COUNT", "gwpm_dyna_field_count");
+define("GWPM_AVATAR", "gwpm_avatar");
 
 $gwpm_db_version = 0.1;
 

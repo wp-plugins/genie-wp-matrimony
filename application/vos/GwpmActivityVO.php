@@ -10,7 +10,7 @@
  * Updated on May 17, 2012
  *
  */
-class GwpmActivityVO extends Command {
+class GwpmActivityVO extends GwpmCommand {
 
 	var $uid ;
 

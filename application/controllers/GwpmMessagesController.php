@@ -6,7 +6,7 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
  
- class GwpmMessagesController extends Controller {
+ class GwpmMessagesController extends GwpmMainController {
  	
  	function view() {
 		$f = 0;
