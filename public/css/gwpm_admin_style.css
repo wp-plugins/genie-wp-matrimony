@@ -1,0 +1,92 @@
+.current-theme-new {
+	border-bottom-color: #DFDFDF;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}
+
+.gwpm_rowno {
+	font-weight: bold;
+	font-size: 18px;
+	color: red;
+}
+
+.gwpm_fields_show {
+	vertical-align: top;
+}
+
+.gwpm_spacers {
+	padding-left: 30px;
+}
+
+.gwpm_add_value {
+	display: none;
+}
+
+.gwpm_dyna_field_label_span {
+	height: 5px;
+}
+
+.gwpm_delete_field {
+	margin-top: 5px;
+	cursor: pointer;
+}
+
+.gwpm_message_box {
+	color: red;
+	font-weigth: bold;
+}
+
+.gwpm_dyna_field_table {
+	border: 2px solid;
+	margin-bottom: 20px;
+}
+
+.gwpm_dyna_field_table th {
+	border-bottom: 2px solid;
+	border-left: 2px solid;
+	font-size: 14px;
+	padding: 5px;
+}
+
+.gwpm_dyna_field_table td {
+	border-bottom: 1px solid;
+	border-left: 1px solid;
+	padding-left: 5px;
+}
+
+.gwpm_dyna_field_table .gwpm_first_cell {
+	padding-left: 5px;
+	border-left: 0px;
+}
+
+.gwpm_dyna_select_val_table {
+	margin-top: 12px;
+	border-top: 2px solid;
+	border-spacing: 0px;
+	border-collapse: separate;
+}
+
+.gwpm-table td {
+	min-width: 20em;
+}
+
+.gwpm-table input,select {
+	width: 16em;
+}
+
+.gwpm-mandatory {
+	font-size: 18px;
+	font-weight: bold;
+	color: red;
+}
+
+.gwpm_hidden_fields {
+	display: none;
+	visibility: hidden;
+}
+
+.gwpm-error-msg {
+	font-size: 14px;
+	font-weight: bold;
+	color: red;
+}
