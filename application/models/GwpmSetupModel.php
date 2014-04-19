@@ -66,16 +66,16 @@ class GwpmSetupModel {
 
 	private function removeMatrimonyPage($postId) {
 		wp_delete_post($postId, true);
-		clean_page_cache($postId);
+		clean_post_cache($postId);
 	}
 	
 	private function removeMenuItems($postid) {
 		global $wpdb ;
-		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d", $postid ));
+		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d and post_name like %s", $postid, "gwpm_matrimony_%" ));
 		if ( ! empty($post_ids) ) {
 			foreach ( $post_ids as $post_id ) {
 				wp_delete_post( $post_id, true );
-				clean_page_cache($post_id);
+				clean_post_cache($post_id);
 			}
 		}
 	}
@@ -178,7 +178,7 @@ class GwpmSetupModel {
         $msg .= "Request for Matrimonial account: " . get_option("siteurl") . '/?page_id=' . $this->getMatrimonialId() . '&page=subscribe' ;
         $msg .= "\n\nRegards\n\nAdmin." ;
         wp_mail( $email, $subject, $msg, $headers );  
-        $gwpm_activity_model->addActivityLog("register", "Joined " . get_option('blogname'), $user->ID) ;
+        $gwpm_activity_model->addActivityLog("register", "Joined " . get_option('blogname'), $user_id) ;
 	}
 	
 	function getMatrimonialId(){

@@ -22,8 +22,13 @@
 		$userId = $user->ID ;	
 		$itrId = $_GET['pid'] ;
 		$msgType = $_GET['type'] ;
-		$this->_model->updateMessage($userId, $itrId, "User " . $user->display_name . " showed interest on your profile.", $msgType) ;
-		$this->set('success_message', 'Interest sent to the user successfully!!');
+		$send_message_result = $this->_model->updateMessage($userId, $itrId, "User " . $user->display_name . " showed interest on your profile.", $msgType) ;
+		if($send_message_result == 1)
+			$this->set('success_message', 'Interest updated to the user successfully!!');
+		else if($send_message_result == 0)	
+			$this->set('success_message', 'Interest sent to the user successfully!!');
+		else if($send_message_result == -1)	
+			$this->set('success_message', 'You have sent maximum number of interests. Please wait for the recepient response. !!');
 	}
  }
  

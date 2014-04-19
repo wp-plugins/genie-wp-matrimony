@@ -81,25 +81,26 @@ $modelObj = $this->get('model');
 			<?php
 				$totalDynamicFields = $modelObj['gwpm_dynamic_field_count'] ;
 				$dyna_field_item = $modelObj['dyna_field_item'] ;
-				$keys = array_keys($dyna_field_item)  ;
-				
-				foreach ($keys as $vkey) {
-					?>
-						<tr>
-							<td valign="top"><?php echo $dyna_field_item[$vkey]['label']  ?>:</td>
-							<td valign="top">
-								<?php
-									 if($dyna_field_item[$vkey]['type'] == 'text') {
-										gwpm_echo ('<input name="' . $vkey . '" id="' . $vkey . '" />' );
-									 } else if($dyna_field_item[$vkey]['type'] == 'select') {
-									 	$this->getSelectItem(getDynamicFieldOptions($dyna_field_item[$vkey]['value']), $vkey) ;
-									 } else if($dyna_field_item[$vkey]['type'] == 'yes_no') {
-									 	$this->getSelectItem(getYesNoOptions(), $vkey) ;
-									 }
-								?>
-							</td>
-						</tr>
-					<?php
+				if($dyna_field_item != null && sizeof($dyna_field_item) > 0) {
+					$keys = array_keys($dyna_field_item)  ;				
+					foreach ($keys as $vkey) {
+						?>
+							<tr>
+								<td valign="top"><?php echo $dyna_field_item[$vkey]['label']  ?>:</td>
+								<td valign="top">
+									<?php
+										 if($dyna_field_item[$vkey]['type'] == 'text') {
+											gwpm_echo ('<input name="' . $vkey . '" id="' . $vkey . '" />' );
+										 } else if($dyna_field_item[$vkey]['type'] == 'select') {
+										 	$this->getSelectItem(getDynamicFieldOptions($dyna_field_item[$vkey]['value']), $vkey) ;
+										 } else if($dyna_field_item[$vkey]['type'] == 'yes_no') {
+										 	$this->getSelectItem(getYesNoOptions(), $vkey) ;
+										 }
+									?>
+								</td>
+							</tr>
+						<?php
+					}
 				}
 			?>
 			<tr>

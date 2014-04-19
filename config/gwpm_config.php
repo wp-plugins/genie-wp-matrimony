@@ -26,6 +26,7 @@ define("GWPM_ACTIVITY_MAX_NOS", "10");
 define("GWPM_DYNA_KEY_PREFIX", "gwpm_dyna_field_");
 define("GWPM_DYNA_FIELD_COUNT", "gwpm_dyna_field_count");
 define("GWPM_AVATAR", "gwpm_avatar");
+define("GWPM_MAX_USER_MESSAGES", 5);
 
 $gwpm_db_version = 0.1;
 

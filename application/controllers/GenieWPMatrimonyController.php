@@ -84,15 +84,43 @@ class GenieWPMatrimonyController {
 
 	function gwpm_admin_action() {
 		if (current_user_can('edit_users')) {
-			add_options_page('Genie WP Matrimony', 'Genie WP Matrimony', 'activate_plugins', 'gpwma', array (
+			add_options_page('Genie WP Matrimony', 
+				'Genie WP Matrimony', 'activate_plugins', 'gpwma', array (
 				& $this,
 				'gwpm_admin_page'
 			));
 		}
-		add_menu_page('Manage Matrimonial Profile', 'Matrimony', 'edit_posts', 'gpwmp', array (
-			& $this,
+		add_menu_page('Manage Matrimonial Profile', 
+			'Matrimony', 'edit_posts', 'gpwmp', array (
+			&$this,
 			'gwpm_admin_page_profiles'
 		));
+		add_submenu_page( 'gpwmp', 'Manage Matrimonial Profile', 
+			'Admin Dashboard', 'activate_plugins', 'gpwmp_admin', array (
+			& $this,
+			'gwpm_dashboard_page_show'
+		));
+		
+	}
+	
+	function gwpm_dashboard_page_show() {
+		
+		wp_enqueue_script('common');
+		wp_enqueue_script('wp-lists');
+		wp_enqueue_script('postbox');
+		
+		add_meta_box('gpwmp_admin_dashboard_sub', 
+			'Subscribed Users', 'gwpm_admin_dasboard_page_sub_users', 
+			'gpwmp_admin', 'normal', 'core'
+		);
+		
+		add_meta_box('gpwmp_admin_dashboard_all', 
+			'Registered Users', 'gwpm_admin_dasboard_page_all_users', 
+			'gpwmp_admin', 'normal', 'core'
+		);
+		
+		require_once GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_ctrl_dashboard.php';		
+		
 	}
 	
 	function gwpm_avatar_defaults($avatar_defaults) {
@@ -105,8 +133,6 @@ class GenieWPMatrimonyController {
 	function gwpm_get_avatar($avatar, $id_or_email, $size, $default) {
 		global $wpdb ;
 		
-		appendLog("avatar: " . $avatar) ;
-		appendLog("default: " . $default) ;
 		appendLog( $id_or_email );
 		
 		if( strpos($default, GWPM_AVATAR) !== false ) {
@@ -145,10 +171,8 @@ class GenieWPMatrimonyController {
 		        $avatar = $tag->ownerDocument->saveXML( $tag ) ;
 		        appendLog("altered avatar: ") ;
 		    }
-			
 		}
-	    
-	    appendLog ("printxml: " .  $avatar   ) ; 
+		
 		return $avatar;
 	}
 	

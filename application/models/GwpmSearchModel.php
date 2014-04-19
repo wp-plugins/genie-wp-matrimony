@@ -142,15 +142,16 @@ class GwpmSearchModel {
 			$totalDynamicFields = $dynaData['gwpm_dynamic_field_count'] ;
 			if($totalDynamicFields > 0) {
 				$dyna_field_item = $dynaData['dyna_field_item'] ;
-				$keys = array_keys($dyna_field_item)  ;
-					
-				foreach ($keys as $vkey) {
-					if (!isNull($searchObj-> $vkey)) {
-						appendLog( $vkey . ' - ' . $searchObj-> $vkey . ' * ' );
-						$args = array ();
-						$filter = "meta_value = '%s' AND meta_key = '" . $vkey . "' " ;
-						$args[0] = like_escape( $searchObj-> $vkey );
-						$userLists = $this->getUserIds($filter, $args, $userLists, $wpdb) ;	
+				if($dyna_field_item != null && sizeof($dyna_field_item) > 0) {
+					$keys = array_keys($dyna_field_item)  ;
+					foreach ($keys as $vkey) {
+						if (!isNull($searchObj-> $vkey)) {
+							appendLog( $vkey . ' - ' . $searchObj-> $vkey . ' * ' );
+							$args = array ();
+							$filter = "meta_value = '%s' AND meta_key = '" . $vkey . "' " ;
+							$args[0] = like_escape( $searchObj-> $vkey );
+							$userLists = $this->getUserIds($filter, $args, $userLists, $wpdb) ;	
+						}
 					}
 				}
 			}

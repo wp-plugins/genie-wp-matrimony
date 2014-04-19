@@ -4,8 +4,8 @@ Contributors: prakashm88
 Donate link: http://www.itechgenie.com/
 Tags: matrimony, India matrimony, marriage, brides, grooms, matrimonial, dating
 Requires at least: 3.0
-Tested up to: 3.8.1
-Stable tag: 0.6
+Tested up to: 3.9
+Stable tag: 0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,18 +56,33 @@ Yes, The plugin is not theme dependable so you can use any theme.
 9. Dynamic fields add screen
 10. Dynamic fields view screen
 11. Dynamic fields in User profile edit page
-
+12. Admin dashboard page
 
 == Upgrade Notice ==
 
-1. Gravatar with profile picture support for GWPM Matrimony users
-2. Controllers, Templates renamed to avoid potential conflicts with other plugins
-3. Dynamic Field support added - customized fields in profile, search pages
-4. Logger implementation done for development purposes
-5. Dashboard admin page updated with Tabs for Dynamic field support
-6. Separate CSS for admin pages, typo fixed
+1. Added a functional administrative dashboard with new page to the control panel
+2. Static interests limits of 5 added can be made configurable
+3. Capability fix with DB prefix
+4. Wrong message count on matrimony home page fixed
+5. Dynamic field array validation warnings on search page fixed
+6. Deprecated method clean_page_cache updated with clean_post_cache
+7. More restriction added on deleting pages at plugin deactivation
+8. Activity updated script bug fixed
+9. Typos corrected and debug loggers added
+
 
 == Changelog ==
+
+= 0.7 =
+Added a functional administrative dashboard with new page to the control panel
+Static interests limits of 5 added can be made configurable
+Capability fix with DB prefix
+Wrong message count on matrimony home page fixed
+Dynamic field array validation warnings on search page fixed
+Deprecated method clean_page_cache updated with clean_post_cache
+More restriction added on deleting pages at plugin deactivation
+Activity updated script bug fixed
+Typos corrected and debug loggers added
 
 = 0.6 =
 Gravatar with profile picture support for GWPM Matrimony users
