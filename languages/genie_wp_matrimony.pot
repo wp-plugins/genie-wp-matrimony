@@ -1,0 +1,53 @@
+# Copyright (C) 2013 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version:  \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/genie-wp-matrimony\n"
+"POT-Creation-Date: 2013-01-05 19:08:59+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: application/views/gwpm_ctrl_admin.php:12
+msgid "Genie WP Matrimony Plugin Configuration"
+msgstr ""
+
+#: application/views/gwpm_ctrl_admin.php:40
+msgid "Options: "
+msgstr ""
+
+#: application/views/gwpm_ctrl_admin.php:42
+msgid "Run Matrimonial Setup: "
+msgstr ""
+
+#: application/views/gwpm_ctrl_admin.php:51
+msgid "Update Options"
+msgstr ""
+
+#: application/views/gwpm_ctrl_profile.php:35
+msgid "Matrimonial Profile"
+msgstr ""
+
+#: application/views/gwpm_pg_login.php:7
+msgid "You're unauthorized to view this page. Why don't you %s and try again."
+msgstr ""
+
+#: application/views/gwpm_pg_login.php:7
+msgid "Login"
+msgstr ""
+
+#: application/views/gwpm_pg_login.php:11
+msgid "1. Don't have a Login?"
+msgstr ""
+
+#: application/views/gwpm_pg_login.php:11
+msgid "Register for an Account."
+msgstr ""
+
+#: application/views/gwpm_pg_unauthorized.php:1
+msgid "You're unauthorized to view this page."
+msgstr ""
