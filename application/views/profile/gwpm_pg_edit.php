@@ -1,10 +1,11 @@
+<?php
+$modelObj = $this->get('model');
+if ( $modelObj != null) {
+?>
 <h2 class='gwpm-content-title'>Profile Page<?php if(!$this->isEditMode() && !$this->isUpdateMode()) 
 {?> - <a class='edit-mode-link' href='<?php $this->get_gwpm_edit_link(); ?>'>Edit Profile</a><?php } 
 	else { echo " <span class='gwpm-sec-info' > (Click section header to expand)</span>" ; } ?></h2>
 <br />
-<?php
-$modelObj = $this->get('model');
-?>
 <form name="gwpm-profile-form" action="<?php $this->getActionURL(); ?>"
 	method="post" enctype="multipart/form-data">
 	<div id="gwpm_accordion">
@@ -37,7 +38,7 @@ $modelObj = $this->get('model');
 					<tr>
 						<td valign="top">Contact No:</td>
 						<td valign="top"><input name="gwpm_contact_no" id="gwpm_contact_no"
-							value="<?php gwpm_echo ( $modelObj->gwpm_contact_no ) ; ?>" maxLength="15" /><span class="gwpm-mandatory">*</span></td>
+							value="<?php gwpm_echo ( $modelObj->gwpm_contact_no ) ; ?>" maxLength="15" /></td>
 					</tr>
 					<tr>
 						<td valign="top">Gender:</td>
@@ -317,3 +318,6 @@ $modelObj = $this->get('model');
 	 });
 			  
 </script>
+<?php   } else {
+			include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_login.php');
+}

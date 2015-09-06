@@ -23,19 +23,33 @@ if($active_tab == "main_options") {
 	$gwpmSetupModel = new GwpmSetupModel();
 	$urlId = $gwpmSetupModel->getMatrimonialId();
 	
-	if (isset($_POST['userRole']) && $_POST['userRole'] == 'yes') {
-		$gwpmSetupModel->setupGWPMDetails();
+	if (isset($_POST['pluginSetup']) && $_POST['pluginSetup'] == 'yes') {
+		$userPref = $_POST['loginPreferences'] ;
+		$init_request[GWPM_USER_LOGIN_PREF] = $userPref ;
+		$gwpmSetupModel->setupGWPMDetails($init_request);
 		$setupStatus = true;
-	} elseif (isset($_POST['userRole']) && $_POST['userRole'] == 'no') {		
+	} elseif (isset($_POST['pluginSetup']) && $_POST['pluginSetup'] == 'no') {		
 		$gwpmSetupModel->removeGWPMDetails();
 		$setupStatus = false;
 	} else {
 		$setupStatus = $gwpmSetupModel->checkSetupStatus();
 	}
 	
+	appendLog("admin ctrl page: setupStatus " . $setupStatus) ;
+	
 	if ($setupStatus) {
 		$resultObj[1] = "";
 		$resultObj[0] = "selected";
+		$resultObj[2] = "selected";
+		$resultObj[4] = "checked='true'";
+		$user_pref = get_option(GWPM_USER_LOGIN_PREF) ;
+		appendLog("admin ctrl page user_pref: " . $user_pref) ;
+		if (!isset($user_pref)) {
+			update_option (GWPM_USER_LOGIN_PREF, 1) ;
+		} else {
+			$user_pref = (int) $user_pref ;
+			$resultObj[$user_pref + 3] = "checked='true'";
+		}
 	} else {
 		$resultObj[0] = "";
 		$resultObj[1] = "selected";

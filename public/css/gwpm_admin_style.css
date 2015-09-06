@@ -26,9 +26,44 @@
 	height: 5px;
 }
 
-.gwpm_delete_field {
-	margin-top: 5px;
+#oldDynamicFieldHolder td {
+	height: 25px;
+}
+
+.gwpm_dyna_fields_holder {
+	vertical-align: middle;
+	display: block;
+	padding: 5px;
+}
+
+.gwpm_action_images {
+	position: absolute;
+	width: 25px;
+	height: 25px;
 	cursor: pointer;
+}
+
+.gwpm_delete_field { 
+	margin-left: 42px;
+}
+
+.gwpm_add_field {
+	margin-left: 83px;
+}
+
+.gwpm_add_field_loader {
+	margin-left: 10px;	
+	display: none ;
+}
+
+.gwpm_action_images:hover {
+	height: 26px;
+	width: 26px;
+}
+
+.gwpm_delete_field:hover {
+	height: 26px;
+	width: 26px;
 }
 
 .gwpm_message_box {

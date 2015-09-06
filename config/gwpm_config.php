@@ -19,7 +19,7 @@ define('GWPM_USER_ROLE', 'matrimony_user');
 define('GWPM_USER_PREFIX', 'gwpm_');
 define('GWPM_GALLERY_DIR', WP_CONTENT_DIR . URL_S . 'uploads' . URL_S . 'gwpm_gallery');
 define('GWPM_GALLERY_URL', WP_CONTENT_URL . URL_S . 'uploads' . URL_S . 'gwpm_gallery');
-define("GWPM_IMAGE_MAX_SIZE", "500");
+define("GWPM_IMAGE_MAX_SIZE", "500");  // In KBs
 define("GWPM_GALLERY_MAX_IMAGES", "12");
 define("GWPM_CONVERSE_MAX_NOS", "10");
 define("GWPM_ACTIVITY_MAX_NOS", "10");
@@ -27,6 +27,8 @@ define("GWPM_DYNA_KEY_PREFIX", "gwpm_dyna_field_");
 define("GWPM_DYNA_FIELD_COUNT", "gwpm_dyna_field_count");
 define("GWPM_AVATAR", "gwpm_avatar");
 define("GWPM_MAX_USER_MESSAGES", 5);
+
+define('GWPM_USER_LOGIN_PREF', 'gwpm_user_login_pref');
 
 $gwpm_db_version = 0.1;
 

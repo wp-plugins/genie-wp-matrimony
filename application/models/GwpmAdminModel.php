@@ -117,4 +117,50 @@ class GwpmAdminModel {
 		}
 		echo json_encode( $resultObj ) ;
 	}
+
+	function updateDynamicField($valObj) {
+		if (isset ($valObj) && $valObj != null && sizeof($valObj) > 0) {
+			appendLog(print_r($valObj, true) );
+			foreach ($valObj as $key => $all) {
+				if (strpos($key, '_')) {
+					$idsAry = explode('_', $key);
+					$rowId = $idsAry[0];
+					$valueId = $idsAry[1];
+
+					$editOption = get_option('gwpm_dyna_field_' . $rowId);
+					$valuesAry = $editOption['gwpm_dyna_field_values'];
+					appendLog(print_r($valuesAry, true));
+					$srcValue = $valuesAry[$valueId] ;
+					appendLog("srcValue: " . $srcValue);
+					
+					$valuesAry[$valueId] = $valObj[$key] ;
+					$editOption['gwpm_dyna_field_values'] = $valuesAry ;
+					
+					$result = update_option(GWPM_DYNA_KEY_PREFIX . ($rowId), $editOption);
+					appendLog("valuesAry: " . $result);
+					
+					$resultObj['message'] = $valObj[$key] ;
+					$resultObj['result'] = 1 ;
+					
+				} else {
+					appendLog("vKey: " . $key . " - " . $valObj[$key] . " $$ ");
+					$editOption = get_option(GWPM_DYNA_KEY_PREFIX . $key);
+					appendLog("editOption: ");
+					appendLog(print_r($editOption, true));
+					$valuesAry = $editOption['gwpm_dyna_field_label'];
+					$editOption['gwpm_dyna_field_label'] = $valObj[$key];
+					appendLog("valuesAry: " . $valuesAry);
+					$result = update_option(GWPM_DYNA_KEY_PREFIX . ($key), $editOption);
+					appendLog("valuesAry: " . $result);
+					
+					$resultObj['message'] = $valObj[$key] ;
+					$resultObj['result'] = 1 ;
+				}
+			} 
+		} else {
+			$resultObj['message'] = "Exception in deleting dynamic field !" ;
+			$resultObj['result'] = 0 ;
+		}
+		echo json_encode( $resultObj ) ;
+	}
 }

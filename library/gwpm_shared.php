@@ -1,12 +1,12 @@
 <?php
 
 /**
- * 
+ *
  * gwpm_shared.php is a shared repo of functions to access from anywhere inside the framework.
  * Just add a function and access by the name anywhere inside the framework from Controllers to Value objects.
  * Needs a Common Model to make Database operation, till then this files takes care of all the DB operations.
- * 
- * 
+ *
+ *
  */
 
 /* Check if environment is development and display errors */
@@ -15,11 +15,11 @@ function setReporting() {
 	error_reporting(E_ALL);
 	if (DEVELOPMENT_ENVIRONMENT == true) {
 		if(ini_set('display_errors', 'On') === false) {
-			 // check incase if ini_set is not supported.
+			// check incase if ini_set is not supported.
 		}
 	} else {
 		if(ini_set('display_errors', 'Off') === false) {
-			 // check incase if ini_set is not supported.
+			// check incase if ini_set is not supported.
 		} else {
 			ini_set('log_errors', 'On');
 			ini_set('error_log', ROOT . DS . 'tmp' . DS . 'logs' . DS . 'gwpm_error.log');
@@ -33,15 +33,15 @@ function __autoload_($className) {
 	if (file_exists(GWPM_APPLICATION_URL . DS . 'controllers' . DS . $className . '.php')) {
 		require_once (GWPM_APPLICATION_URL . DS . 'controllers' . DS . $className . '.php');
 	} else
-		if (file_exists(GWPM_APPLICATION_URL . DS . 'models' . DS . $className . '.php')) {
-			require_once (GWPM_APPLICATION_URL . DS . 'models' . DS . $className . '.php');
-		} else
-			if (file_exists(GWPM_LIBRARY_URL . DS . $className . '.php')) {
-				require_once (GWPM_LIBRARY_URL . DS . $className . '.php');
-			} else {
-				parent :: __autoload($className);
-				throw new GwpmCommonException("Unable to load classname " . $className);
-			}
+	if (file_exists(GWPM_APPLICATION_URL . DS . 'models' . DS . $className . '.php')) {
+		require_once (GWPM_APPLICATION_URL . DS . 'models' . DS . $className . '.php');
+	} else
+	if (file_exists(GWPM_LIBRARY_URL . DS . $className . '.php')) {
+		require_once (GWPM_LIBRARY_URL . DS . $className . '.php');
+	} else {
+		parent :: __autoload($className);
+		throw new GwpmCommonException("Unable to load classname " . $className);
+	}
 }
 
 function gwpm_echo($value) {
@@ -53,11 +53,13 @@ function gwpm_echo($value) {
 
 function gwpm_get_display_name($pid = null) {
 	$user = null ;
-	if($pid != null) 
-			$user = get_userdata( $pid );
-		else 
-			$user = wp_get_current_user();
-	if( isset($user) && $user!= null)
+	
+	if($pid != null)
+		$user = get_userdata( $pid );
+	else
+		$user = wp_get_current_user();
+		
+	if( isset($user) && $user != null)
 		return $user->display_name;
 	else
 		return 'Not a valid user' ;
@@ -100,7 +102,7 @@ function savePhotoToUploadFolder($photo, $userId, $photoId=null) {
 		$photoEXT = ".png";
 		$pType = 2;
 	}
-	
+
 	if (isset ($pType) && ($photo["size"] < (GWPM_IMAGE_MAX_SIZE * 1024))) {
 		if ($photo["error"] > 0) {
 			throw GwpmCommonException("Upload of profile photo failed. Error Code: " . $photo["error"]);
@@ -159,7 +161,7 @@ function savePhotoToUploadFolder($photo, $userId, $photoId=null) {
 			unset ($photo["tmp_name"]);
 		}
 	} else {
-		throw new GwpmCommonException("Upload of profile photo failed. Invalid photo type (" . $pType . " - " . $photo["type"] . ") or Size greater than " . GWPM_IMAGE_MAX_SIZE . " kb");
+		throw new GwpmCommonException("Upload of profile photo failed. Invalid photo type (" . $pType . " - " . $photo["type"] . ") or Size greater than " . GWPM_IMAGE_MAX_SIZE . " KB");
 	}
 	return $photo;
 }
@@ -169,16 +171,16 @@ function getDynamicFieldOptions($opts, $id = 'all') {
 }
 
 function getDynamicFieldKeys() {
-	
+
 	global $wpdb ;
 	$preparedSql = $wpdb->prepare("SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s AND option_name <> 'gwpm_dyna_field_count'" , "gwpm_dyna_field_%") ;
 	$keys_values = array() ;
-	
+
 	$result = $wpdb->get_results($preparedSql);
 	foreach($result as $obj) {
 		$keyVal = $obj->option_name ;
 		if (isset ($keyVal) && $keyVal != null)
-			array_push($keys_values, $keyVal);
+		array_push($keys_values, $keyVal);
 	}
 	return $keys_values ;
 }
@@ -199,7 +201,7 @@ function getDynamicFieldData() {
 				$dyna_field_item[$field_key]['label'] = $dyna_field_obj['gwpm_dyna_field_label'] ;
 				$dyna_field_item[$field_key]['type'] = $dyna_field_obj['gwpm_dyna_field_type'] ;
 				if(isset($dyna_field_obj['gwpm_dyna_field_values']))
-					$dyna_field_item[$field_key]['value'] = $dyna_field_obj['gwpm_dyna_field_values'] ; 
+				$dyna_field_item[$field_key]['value'] = $dyna_field_obj['gwpm_dyna_field_values'] ;
 			}
 		}
 	}
@@ -212,7 +214,7 @@ function getGenderOptions($id = 'all') {
 		'Male',
 		'Female',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -231,7 +233,7 @@ function getPhysicalType($id = 'all') {
 		'Voluptuous',
 		'Large',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -274,7 +276,7 @@ function getStateOptions($id = 'all') {
 		'National Capital Territory of Delhi',
 		'Puducherry',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -285,7 +287,7 @@ function getMaritalOptions($id = 'all') {
 		'Married',
 		'Divorsed',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -295,7 +297,7 @@ function getYesNoOptions($id = 'all') {
 		'Yes',
 		'No',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -310,7 +312,7 @@ function getQualificationOptions($id = 'all') {
 		'PhD / Post Doctoral',
 		'Others',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -326,7 +328,7 @@ function getEmploymentStatusOptions($id = 'all') {
 		'Work at home',
 		'Unemployed',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -346,7 +348,7 @@ function getZodiacOptions($id = 'all') {
 		'Aquarius',
 		'Pisces',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -381,7 +383,7 @@ function getStarSignOptions($id = 'all') {
 		'Uthirattathi',
 		'Revathi',
 
-		
+
 	);
 	return validateOptionsId($opts, $id);
 }
@@ -403,15 +405,15 @@ function isNull($value) {
 function getGravatarImageForUser($userid, $isExplicit = null) {
 	$profileImgName = get_user_meta($userid, "gwpm_profile_photo", true);
 	appendLog("profileImgName: " . print_r($profileImgName, true)) ;
-	
+
 	if(isset($profileImgName['thumb_name'])) {
 		$imageName = $profileImgName['thumb_name'] ;
-		$imageURL = GWPM_GALLERY_URL . URL_S . $userid . URL_S . $imageName ; 
+		$imageURL = GWPM_GALLERY_URL . URL_S . $userid . URL_S . $imageName ;
 		appendLog("image url : " . $imageURL) ;
 	} else {
 		$imageURL = GWPM_PUBLIC_IMG_URL . URL_S . 'gwpm_icon.png' ;
 	}
-	
+
 	if(isset($isExplicit)) {
 		return '<img width="48" height="48" class="avatar avatar-48 photo" src="' . $imageURL . '" alt="Profile PIC">' ;
 	} else {
@@ -419,24 +421,50 @@ function getGravatarImageForUser($userid, $isExplicit = null) {
 	}
 }
 
-function getStrippedUserId($id) {
-	$id = explode(GWPM_USER_PREFIX, $id ) ;
-	return ($id[1]) ;
+function getBulletImg() {
+	return '<img src="' . GWPM_PUBLIC_IMG_URL . URL_S . 'bullet.gif" alt="*">  ' ;
 }
 
+function getLoaderImg($dimensions = null, $class_name = 'gwpm_loader' ) {
+	if(isset($dimensions)) {
+		return '<img src="' . GWPM_PUBLIC_IMG_URL . URL_S . 'loader.gif" style="width:' . $dimensions . '; height:' . $dimensions . '; " alt="Loading.." class="' . $class_name . '">  ' ;
+	} else {
+		return '<img src="' . GWPM_PUBLIC_IMG_URL . URL_S . 'loader.gif" alt="Loading.." class="' . $class_name . '" >  ' ;
+	}
+}
+
+function getStrippedUserId($id) {
+	$id = explode(GWPM_USER_PREFIX, $id ) ;
+	return (trim($id[1])) ;
+}
+
+function addMenuItem($menu_id, $pageTitle, $pageId, $parentId, $menuOrder) {
+	$args = array(
+	        'menu-item-title' => $pageTitle,
+	        'menu-item-object' => 'page',
+	        'menu-item-object-id' => $pageId,
+	        'menu-item-type' => 'post_type',
+	        'menu-item-status' => 'publish',
+	        'menu-item-parent-id' => $parentId,
+	        'menu-item-position' => $menuOrder
+	);
+		
+	appendLog('createMenuItems : ' . $menu_id . ' - ' . $args) ;
+	return wp_update_nav_menu_item ($menu_id, 0, $args ) ;
+}
 
 function appendLog($message) {
 	if(GWPM_ENABLE_DEBUGGING == true) {
 		$trace = debug_backtrace();
-	    $line   = $trace[0]['line'];
-	    $callerName = $trace[1]['object'];
-	    $functionName = $trace[1]['function'];
-	    if (is_object($callerName)) { $callerName = get_class($callerName); }
-	    else { $callerName = "ANON"; }
-	    $logDir = ini_get('upload_tmp_dir');
-	    $logDir = $logDir ? $logDir : sys_get_temp_dir(); 
+		$line   = $trace[0]['line'];
+		$callerName = $trace[1]['object'];
+		$functionName = $trace[1]['function'];
+		if (is_object($callerName)) { $callerName = get_class($callerName); }
+		else { $callerName = "ANON"; }
+		$logDir = ini_get('upload_tmp_dir');
+		$logDir = $logDir ? $logDir : sys_get_temp_dir();
 		$file =  $logDir . DS . 'gwpm_error.log' ;
-		
+
 		if(is_array($message) || is_object($message)) {
 			$message = print_r($message, true) ;
 		}

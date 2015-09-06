@@ -4,8 +4,8 @@ Contributors: prakashm88
 Donate link: http://www.itechgenie.com/
 Tags: matrimony, India matrimony, marriage, brides, grooms, matrimonial, dating
 Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 0.7
+Tested up to: 4.3
+Stable tag: 0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,10 @@ Yes, you can choose for your self in which network site this has to be enabled a
 No, Usual Wordpress registration will be enough.
 3. Is this theme compatible?
 Yes, The plugin is not theme dependable so you can use any theme.
+4. How do I approve the matrimonial users
+All Administrators will be receiving mails on who to approve a users. Another way is to Login to the Wordpress dashboard -> Matrimony -> Admin Dashboard, click on the "Change Role" and update the users roel to "Matrimonial Role"
+5. Matrimonial pages are displayed in Menu automatically. 
+Different themes might have different Top level parent menus. To add the pages in menu, Login to the Wordpress dashboard -> Appearance -> Menus -> Create a new Menu and add the pages. 
 
 == Screenshots ==
 
@@ -60,18 +64,31 @@ Yes, The plugin is not theme dependable so you can use any theme.
 
 == Upgrade Notice ==
 
-1. Added a functional administrative dashboard with new page to the control panel
-2. Static interests limits of 5 added can be made configurable
-3. Capability fix with DB prefix
-4. Wrong message count on matrimony home page fixed
-5. Dynamic field array validation warnings on search page fixed
-6. Deprecated method clean_page_cache updated with clean_post_cache
-7. More restriction added on deleting pages at plugin deactivation
-8. Activity updated script bug fixed
-9. Typos corrected and debug loggers added
-
+1. Options to enable guest users to search and view registered users
+2. Parent menu item enabling for new themes
+3. Dynamic fields edit and update options added in admin screen
+4. Search optimized to better results
+5. jQuery deprecated APIs updated with new APIs
+6. PHP deprecated APIs updated with new APIs
+7. Contact No field made non mandatory field
+8. Test framework updated with Dynamic field support
+9. Code cleanup
+10. Minor bug fixes
 
 == Changelog ==
+
+= 0.8 =
+
+Options to enable guest users to search and view registered users
+Parent menu item enabling for new themes
+Dynamic fields edit and update options added in admin screen
+Search optimized to better results
+jQuery deprecated APIs updated with new APIs
+PHP deprecated APIs updated with new APIs
+Contact No field made non mandatory field
+Test framework updated with Dynamic field support
+Code cleanup
+Minor bug fixes
 
 = 0.7 =
 Added a functional administrative dashboard with new page to the control panel

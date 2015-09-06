@@ -11,7 +11,10 @@ class GwpmSearchModel {
 
 	function getUserById($userId) {
 		$userObj = get_userdata($userId);
-		if (isset ($userObj) && isset ($userObj->ID) && !user_can($userObj->ID, 'level_10') && user_can($userObj->ID, 'matrimony_user')) {
+		$is_open_search = get_option( GWPM_USER_LOGIN_PREF );
+		if (!isset($is_open_search))
+			$is_open_search = 1 ; 
+		if (isset ($userObj) && isset ($userObj->ID) && !user_can($userObj->ID, 'level_10') && ( $is_open_search != 1 || user_can($userObj->ID, 'matrimony_user'))) {
 			return $userObj;
 		}
 		return null;

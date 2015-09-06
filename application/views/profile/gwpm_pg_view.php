@@ -1,26 +1,39 @@
-<h2 class='gwpm-content-title'><?php gwpm_echo(gwpm_get_display_name($this->get('pid'))) ; ?>&nbsp;Profile Page<?php if(!$this->isEditMode() && !$this->isUpdateMode() && $this->isOwnPage()) 
-{ 
-	?> - <a class='edit-mode-link' href='<?php $this->get_gwpm_edit_link(); ?>'>Edit Profile</a><?php 
-} else { 
-	?> - <a class='edit-mode-link' href='<?php $this->get_gwpm_formated_url('page=messages&action=update&type=int'); ?>'>Send Interest</a><?php 
-}	?>
-</h2>
-<br />
 <?php
 $modelObj = $this->get('model');
-?>
+if ($modelObj != null) {
+	?>
+<h2 class='gwpm-content-title'>
+<?php gwpm_echo(gwpm_get_display_name($this->get('pid'))) ; ?>
+	&nbsp;Profile Page
+	<?php if(!$this->isEditMode() && !$this->isUpdateMode() && $this->isOwnPage())
+	{
+		?>
+	- <a class='edit-mode-link'
+		href='<?php $this->get_gwpm_edit_link(); ?>'>Edit Profile</a>
+		<?php
+	} else if (is_user_logged_in()) {
+		?>
+	- <a class='edit-mode-link'
+		href='<?php $this->get_gwpm_formated_url('page=messages&action=update&type=int'); ?>'>Send
+		Interest</a>
+		<?php
+	}	?>
+</h2>
+<br />
 <table class='gwpm-table'>
-		<tbody>
-			<tr>
-				<td>
-					<div class="gwpm_profile_pic_holder" >
-					<a class="gwpm_profile_link" href="<?php echo $this->getUserImageURL ($modelObj->userId , $modelObj->gwpm_profile_photo['name'] ); ?>"
-									target="_blank" title="Click to see the original image"> 
-									<img class="gwpm-thumb-image" alt="profile-picture" src="<?php 
-									echo $this->getUserImageURL ($modelObj->userId , $modelObj->gwpm_profile_photo['thumb_name'] ); ?>" /></a></br>
-					<span class="gwpm-help" >Click to see the original image</span>
-					</div>
-				</td>
+	<tbody>
+		<tr>
+			<td>
+				<div class="gwpm_profile_pic_holder">
+					<a class="gwpm_profile_link"
+						href="<?php echo $this->getUserImageURL ($modelObj->userId , $modelObj->gwpm_profile_photo['name'] ); ?>"
+						target="_blank" title="Click to see the original image"> <img
+						class="gwpm-thumb-image" alt="profile-picture"
+						src="<?php 
+									echo $this->getUserImageURL ($modelObj->userId , $modelObj->gwpm_profile_photo['thumb_name'] ); ?>" />
+					</a></br> <span class="gwpm-help">Click to see the original image</span>
+				</div>
+			</td>
 				<td style="border-bottom: none;">
 					<table>
 						<tr>
@@ -229,5 +242,8 @@ $modelObj = $this->get('model');
 				}
 			}
 			?>
-      	</tbody>
+	</tbody>
 </table>
+<?php } else {
+	include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_login.php');
+}

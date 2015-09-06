@@ -82,9 +82,9 @@ abstract class GwpmCommand {
 	 * @param $key
 	 */
 	function getMessage($message, $key) {
-		$strAry = spliti('@message="', $message);
+		$strAry = explode('@message="', $message);
 		if (isset ($strAry[1])) {
-			$strAry = spliti('"', $strAry[1]);
+			$strAry = explode('"', $strAry[1]);
 			if (isset ($strAry[0])) {
 				return $strAry[0];
 			}
@@ -103,7 +103,7 @@ abstract class GwpmCommand {
 		$strAry = explode('##', $message);
 		if (sizeof($strAry) > 1) {
 			foreach ($strAry as $msgItrs) {
-				$messagePairs = spliti(':', $msgItrs);
+				$messagePairs = explode(':', $msgItrs);
 				foreach ($messagePairs as $mkey => $mval) {
 					if (strpos($mkey, $key) != false) {
 						return trim($mval);

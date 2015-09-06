@@ -35,10 +35,27 @@ class GwpmSetupModel {
 			
 		));
 	}
-	
+
 	private function createMenuItems($postId) {
 		$actionUrl = '?page_id=' . $postId . '&action=view&page=' ;
 		$count = 0;
+		$menu_id = 0 ;
+
+		if ( ! is_nav_menu( 'gwpm-primary-menu' ) ) {
+			$menu_id = wp_create_nav_menu ( 'gwpm-primary-menu' );
+		} else {
+			$menu_slug = 'gwpm-primary-menu';
+			$locations = get_nav_menu_locations();
+
+			if (isset($locations[$args->theme_location])) {
+				$menu_id = $locations[$args->theme_location];
+			}
+		}
+
+		appendLog('createMenuItems - primary_menu_item_oid: ' . $menu_id ) ;
+
+		$parentMenuOid = addMenuItem($menu_id, 'Matrimony', $postId, $menu_id, $count)	;
+
 		$menuPages = array (
 			'profile' => 'Account',
 			'activity' => 'Activity',
@@ -46,6 +63,7 @@ class GwpmSetupModel {
 			'gallery' => 'Gallery',
 			'search' => 'Search',
 		) ;
+
 		foreach ($menuPages as $pageId => $pageTitle) {
 			$count++ ;
 			$newId = wp_insert_post(array (
@@ -57,18 +75,34 @@ class GwpmSetupModel {
 				'ping_status' => 'closed',
 				'post_parent' => $postId, // Comment incase if the option not to be shown as Sub menu
 				'menu_order' => $count,
-				
+
 			));
 			$upVal = update_post_meta($newId, 'gwpm_load_url', $actionUrl . $pageId, true);
-			// echo $newId . '-' . $pageTitle . '-' . $upVal . '</br>';
+
+			appendLog('createMenuItems : ' . $newId . '-' . $pageTitle . '-' . $upVal) ;
+			addMenuItem($menu_id, $pageTitle, $newId, $parentMenuOid, $count)	;
+
 		}
+
+		// Lower case theme_name
+		$theme = strtolower ( str_replace ( ' ', '', wp_get_theme() ) );
+
+		// Get the theme options
+		$theme_mods = get_option ( 'theme_mods_' . $theme );
+
+		// Set the location of the primary menu
+		$theme_mods['nav_menu_locations'] = array ( 'primary' => $menu_id );
+
+		// Update the theme options
+		update_option ( 'theme_mods_' . $theme, $theme_mods );
+
 	}
 
 	private function removeMatrimonyPage($postId) {
 		wp_delete_post($postId, true);
 		clean_post_cache($postId);
 	}
-	
+
 	private function removeMenuItems($postid) {
 		global $wpdb ;
 		$post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent = %d and post_name like %s", $postid, "gwpm_matrimony_%" ));
@@ -79,24 +113,30 @@ class GwpmSetupModel {
 			}
 		}
 	}
-	
+
 	private function removeDynamicFields() {
 		global $wpdb ;
 		$deletedRows = $wpdb->query( $wpdb->prepare( "DELETE  FROM $wpdb->options WHERE OPTION_NAME LIKE %s", "gwpm_dyna_field_%"));
 		echo 'Deleted rows: ' . $deletedRows ;
 	}
-	
+
 	private function updateMatrimonyPageMeta($postId) {
 		return add_post_meta($postId, GWPM_META_KEY, GWPM_META_VALUE, true);
 	}
 
-	function setupGWPMDetails() {
+	function setupGWPMDetails($init_request) {
 		global $current_blog;
+
+		$user_pref = $init_request[GWPM_USER_LOGIN_PREF] ;
+		update_option(GWPM_USER_LOGIN_PREF, $user_pref);
+
 		if ($this->createMatrimonyUserRole()) {
 			$this->install_gwpm_db();
 			$postId = $this->createMatrimonyPage();
 			$postMetaId = $this->updateMatrimonyPageMeta($postId);
 			$this->createMenuItems($postId);
+				
+			appendLog('from setupGWPMDetails : ' . $user_pref) ;
 			if(isset($current_blog) && isset($current_blog->blog_id)) {
 				update_option("gwpm_" . $current_blog->blog_id . "_". GWPM_META_KEY, true);
 			} else {
@@ -125,14 +165,14 @@ class GwpmSetupModel {
 		global $gwpm_db_version;
 		global $wpdb;
 		require_once (ABSPATH . 'wp-admin/includes/upgrade.php');
-		
+
 		$activity_sql = "CREATE TABLE " . $wpdb->prefix . "gwpm_activity (
 		  uid mediumint(9) NOT NULL,
 		  act_time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 		  act_type tinytext NOT NULL,
 		  act_text text
 		);";
-		
+
 		$message_sql = "CREATE TABLE " . $wpdb->prefix . "gwpm_messages (
 			mid int (11) NOT NULL,
 			pmid int (11) NOT NULL,
@@ -143,7 +183,7 @@ class GwpmSetupModel {
 			folder varchar (30),
 			created datetime 
 		);";
-		
+
 		dbDelta($activity_sql);
 		dbDelta($message_sql);
 	}
@@ -164,23 +204,23 @@ class GwpmSetupModel {
 			update_option("gwpm_db_version", $gwpm_db_version);
 		}
 	}
-	
+
 	function sendRegistrationMail($user_id) {
 		global $wpdb;
 		global $gwpm_activity_model ;
 		$email = $wpdb->get_var($wpdb->prepare("select user_email from $wpdb->users where ID = '%d'", $user_id));
-		$from = get_option('admin_email');  
-        $headers = 'From: '.$from . "\r\n";  
-        $subject = "Registration successful";  
-        //$msg = "Registration successful.\nYour login details\nUsername: $username\nPassword: $random_password";
-        $msg = "Thanks for registering with " . get_option('blogname') . ". \n\nIf you wish to convert your account to " .
+		$from = get_option('admin_email');
+		$headers = 'From: '.$from . "\r\n";
+		$subject = "Registration successful";
+		//$msg = "Registration successful.\nYour login details\nUsername: $username\nPassword: $random_password";
+		$msg = "Thanks for registering with " . get_option('blogname') . ". \n\nIf you wish to convert your account to " .
         		"matrimonial account click the following link and make a request.\n\n"  ;
-        $msg .= "Request for Matrimonial account: " . get_option("siteurl") . '/?page_id=' . $this->getMatrimonialId() . '&page=subscribe' ;
-        $msg .= "\n\nRegards\n\nAdmin." ;
-        wp_mail( $email, $subject, $msg, $headers );  
-        $gwpm_activity_model->addActivityLog("register", "Joined " . get_option('blogname'), $user_id) ;
+		$msg .= "Request for Matrimonial account: " . get_option("siteurl") . '/?page_id=' . $this->getMatrimonialId() . '&page=subscribe' ;
+		$msg .= "\n\nRegards\n\nAdmin." ;
+		wp_mail( $email, $subject, $msg, $headers );
+		$gwpm_activity_model->addActivityLog("register", "Joined " . get_option('blogname'), $user_id) ;
 	}
-	
+
 	function getMatrimonialId(){
 		global $wpdb;
 		return $wpdb->get_var($wpdb->prepare("select post_id from $wpdb->postmeta where meta_key = '%s'", GWPM_META_KEY));

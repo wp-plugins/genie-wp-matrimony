@@ -40,10 +40,7 @@ class GwpmProfileVO extends GwpmCommand {
 	 */
 	var $gwpm_dob;
 	var $description;
-	/** 
-	 * @mandatory
-	 * @message="Invalid value for Contact / Mobile Number" 
-	 */
+
 	var $gwpm_contact_no;
 	/** 
 	 * @mandatory

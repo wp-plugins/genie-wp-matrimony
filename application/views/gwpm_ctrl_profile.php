@@ -85,7 +85,7 @@ try {
 					<tr>
 						<td valign="top">Contact No:</td>
 						<td valign="top"><input name="gwpm_contact_no" id="gwpm_contact_no"
-							value="<?php gwpm_echo ( $modelObj->gwpm_contact_no ) ; ?>" maxLength="15" /><span class="gwpm-mandatory">*</span></td>
+							value="<?php gwpm_echo ( $modelObj->gwpm_contact_no ) ; ?>" maxLength="15" /></td>
 					</tr>
 					<tr>
 						<td valign="top">Gender:</td>

@@ -2,6 +2,7 @@
 class GenieWPMatrimonyController {
 
 	protected $_matrimonyPageId;
+	protected $_userLoginPreference;
 	protected $links;
 
 	function GenieWPMatrimonyController() {
@@ -74,6 +75,7 @@ class GenieWPMatrimonyController {
 	function gwpm_init() {
 		global $wpdb;
 		$this->_matrimonyPageId = $wpdb->get_var($wpdb->prepare("select post_id from $wpdb->postmeta where meta_key = '%s'", GWPM_META_KEY));
+		$this->_userLoginPreference = get_option( GWPM_USER_LOGIN_PREF );
 	}
 	
 	function gwpm_admin_header() {
@@ -132,9 +134,7 @@ class GenieWPMatrimonyController {
 	
 	function gwpm_get_avatar($avatar, $id_or_email, $size, $default) {
 		global $wpdb ;
-		
-		appendLog( $id_or_email );
-		
+
 		if( strpos($default, GWPM_AVATAR) !== false ) {
 			$imageURL = GWPM_PUBLIC_IMG_URL . URL_S . 'gwpm_icon.png' ;
 			appendLog("isAdmin: " . is_admin()) ;
@@ -333,65 +333,83 @@ class GenieWPMatrimonyController {
 		if ($post->ID == $this->_matrimonyPageId) {
 			$content = "" ;
 			ob_start();
+			appendLog('this->_userLoginPreference: ' . $this->_userLoginPreference . '-' . is_user_logged_in() . '-' . current_user_can('level_1') . '-' . current_user_can('level_0')) ;
 			try {
-				if (current_user_can('level_1')) {
+
+				$pages_to_view = "NONE" ;
+				$controller = null ;
+
+				if (isset ($_GET['page'])) {
+					$controller = $_GET['page'];
+				} else {
+					$controller = 'index';
+				}
+				 
+				if ( current_user_can('level_1') || current_user_can('level_10') ) {
+					$pages_to_view = "ALL" ;
+				} else if (($this->_userLoginPreference == 1 && current_user_can('level_0')) || (is_user_logged_in() && $controller == 'subscribe')) {
+					$pages_to_view = "SUBSCRIBE" ;
+				} else if (is_user_logged_in() && current_user_can('level_0') && $this->_userLoginPreference == 2 ) {
+					$pages_to_view = "ALL" ;
+				} else if ($this->_userLoginPreference == 3) {
+					$pages_to_view = "SEARCH_VIEW" ;
+				}
+
+				appendLog('Preference for page show: ' . $pages_to_view ) ;
+
+				if ($pages_to_view == 'ALL'  or  $pages_to_view == 'SEARCH_VIEW'  ) {
 					//wp_register_style('GWPM_CSS', GWPM_PUBLIC_CSS_URL . URL_S . 'gwpm_style.css');
 					//wp_enqueue_style('GWPM_CSS', null, null, true);
-					$controller = null ;
+						
 					$action = null ;
-					if (isset ($_GET['page'])) {
-						$controller = $_GET['page'];
-					} else
-						$controller = 'index';
-					if ($controller == 'admin') {
-						if (!current_user_can('level_10')) {
-							include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_unauthorized.php');
+						// && $profile_id != null
+					if ( $pages_to_view =='ALL' ||  ( $pages_to_view == 'SEARCH_VIEW' && ( $controller == 'search' ||  $controller == 'profile' ) ) ) {
+						if ($controller == 'admin') {
+							if (!current_user_can('level_10')) {
+								include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_unauthorized.php');
+								$content = ob_get_contents();
+								ob_end_clean();
+								return $content;
+							}
+						} elseif ($controller == 'test') {
+							include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_test.php');
 							$content = ob_get_contents();
 							ob_end_clean();
 							return $content;
 						}
-					} elseif ($controller == 'test') {
-						include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_test.php');
-						$content = ob_get_contents();
-						ob_end_clean();
-						return $content;
-					}
-					if (isset ($_GET['action'])) {
-						$action = $_GET['action'];
-					}
-					$controllerName = 'Gwpm' . ucwords($controller) . 'Controller';
-					$modelName = 'Gwpm' . ucwords($controller) . 'Model';
-					$controllerURL = GWPM_APPLICATION_URL . DS . 'controllers' . DS . $controllerName . '.php';
-					$modelURL = GWPM_APPLICATION_URL . DS . 'models' . DS . $modelName . '.php';
-					if (!file_exists($controllerURL)) {
-						$controller = 'index';
+						if (isset ($_GET['action'])) {
+							$action = $_GET['action'];
+						}
 						$controllerName = 'Gwpm' . ucwords($controller) . 'Controller';
 						$modelName = 'Gwpm' . ucwords($controller) . 'Model';
 						$controllerURL = GWPM_APPLICATION_URL . DS . 'controllers' . DS . $controllerName . '.php';
 						$modelURL = GWPM_APPLICATION_URL . DS . 'models' . DS . $modelName . '.php';
-					}
-					require_once ($controllerURL);
-					require_once ($modelURL);
-					if ($action == null || $action == '') {
-						$action = 'view';
-					}
-					$queryVariables = $this->get_query_string_values($_SERVER['REQUEST_URI']);
-					$dispatch = new $controllerName ($controller, $action, $queryVariables, $modelName);
-	
-					if ((int) method_exists($controllerName, $action)) {
-						call_user_func_array(array ($dispatch, $action ), $queryVariables);
+						if (!file_exists($controllerURL)) {
+							$controller = 'index';
+							$controllerName = 'Gwpm' . ucwords($controller) . 'Controller';
+							$modelName = 'Gwpm' . ucwords($controller) . 'Model';
+							$controllerURL = GWPM_APPLICATION_URL . DS . 'controllers' . DS . $controllerName . '.php';
+							$modelURL = GWPM_APPLICATION_URL . DS . 'models' . DS . $modelName . '.php';
+						}
+						require_once ($controllerURL);
+						require_once ($modelURL);
+						if ($action == null || $action == '') {
+							$action = 'view';
+						}
+						$queryVariables = $this->get_query_string_values($_SERVER['REQUEST_URI']);
+						$dispatch = new $controllerName ($controller, $action, $queryVariables, $modelName);
+
+						if ((int) method_exists($controllerName, $action)) {
+							call_user_func_array(array ($dispatch, $action ), $queryVariables);
+						} else {
+							throw new GwpmCommonException("Method " . $action . ' not found in class ' . $controllerName);
+						}
+
 					} else {
-						throw new GwpmCommonException("Method " . $action . ' not found in class ' . $controllerName);
+						include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_login.php');
 					}
-				} elseif (current_user_can('level_0')) {
-					//if (isset ($_GET['page'])) {
-					//	if ($_GET['page'] == 'subscribe') {
-							include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_subscribe.php');
-							$content = ob_get_contents();
-							ob_end_clean();
-							return $content;
-					//	}
-					//}
+				} elseif ($pages_to_view == "SUBSCRIBE"  ) {
+					include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_subscribe.php');
 				} else {
 					include (GWPM_APPLICATION_URL . DS . 'views' . DS . 'gwpm_pg_login.php');
 				}
@@ -414,6 +432,10 @@ class GenieWPMatrimonyController {
 
 	function getGWPMPageId() {
 		return $this->_matrimonyPageId;
+	}
+	
+	function getUserLoginPreference() {
+		return $this->_userLoginPreference;
 	}
 
 	function get_query_string_values($link) {

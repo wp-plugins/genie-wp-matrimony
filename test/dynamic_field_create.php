@@ -47,6 +47,10 @@ var selectTypeValues = 	'<span id="gwpm_dyna_field_value_##CHANGE_THIS##_##VALUE
 					   	'<br /></span>' ;
 
 jQuery(document).ready(function(){
+
+
+	// alert(jQuery.fn.jquery) ;
+	
 	jQuery("#addNewRow").click(function(){
 		var s = inputFormData.replace(/\##CHANGE_THIS##/g, count);
 		// s = s.replace(/\##CHANGE_THIS_ROWID##/g, (count+1));		
@@ -54,7 +58,7 @@ jQuery(document).ready(function(){
 		count++ ;
 	}) ;
 	
-	jQuery(".gwpm_add_value").live("click", function() {
+	jQuery(document).on("click", ".gwpm_add_value", function() {
 		var myId = this.id ;
 		var rowId = myId.replace('row_btn_', '');
 		var valueCount = valueArray[rowId] ;
@@ -67,7 +71,7 @@ jQuery(document).ready(function(){
 		valueArray[rowId] = valueCount ;
 	});
 
-	jQuery(".gwpm_value_type_select").live("change", function(){
+	jQuery(document).on("change", ".gwpm_value_type_select", function(){
 		var selectId = this.id ;
 		var selectedValue = this.selectedIndex ;
 		var rowNo = selectId.replace('gwpm_dyna_field_type_', '');
@@ -80,7 +84,7 @@ jQuery(document).ready(function(){
 		}
 	}) ;
 
-	jQuery(".gwpm_delete_field_value").live("click", function() {
+	jQuery(document).on("click", ".gwpm_delete_field_value", function() {
 		var selectId = this.id ;
 		var arrayNew = selectId.split("_") ;
 		var rowId = arrayNew[0] ;
@@ -90,7 +94,7 @@ jQuery(document).ready(function(){
 		deleteFields.push(selectId) ;
 	}) ;
 
-	jQuery(".gwpm_delete_field").live("click", function() {
+	jQuery(document).on("click", ".gwpm_delete_field", function() {
 		var selectId = this.id ;
 		var rowId = selectId.replace('gwpm_dyna_field_delete_', '');
 		var removeId = "#gwpm_dyna_field_label_" + rowId ;
